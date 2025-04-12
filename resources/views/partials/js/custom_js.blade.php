@@ -237,6 +237,10 @@
                 var errors = e.responseJSON.errors;
                 displayAjaxErr(errors);
             }
+           if (e.status == 422){
+                var errors = e.responseJSON.errors;
+                displayAjaxErr(errors);
+            }
            if(e.status == 500){
                displayAjaxErr([e.status + ' ' + e.statusText + ' Please Check for Duplicate entry or Contact School Administrator/IT Personnel'])
            }

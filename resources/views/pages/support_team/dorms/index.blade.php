@@ -19,7 +19,7 @@
                         <table class="table datatable-button-html5-columns">
                             <thead>
                             <tr>
-                                <th>S/N</th>
+                                <th>الرقم التسلسلي</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Action</th>

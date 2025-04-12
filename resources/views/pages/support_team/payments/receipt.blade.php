@@ -43,7 +43,7 @@
 
         {{-- Student Info --}}
         <div style="margin-top:5px; display: block; background-color: rgba(92, 172, 237, 0.12); padding: 5px; ">
-            <span style="font-weight:bold; font-size: 20px; color: #000; padding-left: 10px">STUDENT INFORMATION</span>
+            <span style="font-weight:bold; font-size: 20px; color: #000; padding-left: 10px">معلومات الطالب</span>
         </div>
 
         {{--Photo--}}
@@ -58,7 +58,7 @@
                    <td>{{ $sr->user->name }}</td>
                </tr>
                <tr>
-                   <td class="bold">ADM_NO:</td>
+                   <td class="bold">رقم القبول:</td>
                    <td>{{ $sr->adm_no }}</td>
                </tr>
                <tr>
@@ -71,7 +71,7 @@
 
         {{-- Payment Info --}}
         <div style="margin-top:5px; display: block; background-color: rgba(92, 172, 237, 0.12); padding: 5px; ">
-            <span style="font-weight:bold; font-size: 20px; color: #000; padding-left: 10px">PAYMENT INFORMATION</span>
+            <span style="font-weight:bold; font-size: 20px; color: #000; padding-left: 10px">معلومات الدفع</span>
         </div>
 
         <table class="td-left" style="font-size: 16px" cellspacing="2" cellpadding="2">
@@ -91,7 +91,7 @@
 
         {{-- Payment Desc --}}
         <div style="margin-top:5px; display: block; background-color: rgba(92, 172, 237, 0.12); padding: 5px; ">
-            <span style="font-weight:bold; font-size: 20px; color: #000; padding-left: 10px">DESCRIPTION</span>
+            <span style="font-weight:bold; font-size: 20px; color: #000; padding-left: 10px">الوصف</span>
         </div>
 
         <table class="td-left" style="font-size: 16px" width="100%" cellspacing="2" cellpadding="2">

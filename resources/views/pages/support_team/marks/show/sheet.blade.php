@@ -1,7 +1,7 @@
 <table class="table table-bordered table-responsive text-center">
     <thead>
     <tr>
-        <th rowspan="2">S/N</th>
+        <th rowspan="2">الرقم التسلسلي</th>
         <th rowspan="2">SUBJECTS</th>
         <th rowspan="2">CA1<br>(20)</th>
         <th rowspan="2">CA2<br>(20)</th>

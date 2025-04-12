@@ -49,7 +49,7 @@ var DatatableButtonsHtml5 = function() {
                     'copyHtml5',
                     'excelHtml5',
                     'csvHtml5',
-                    'pdfHtml5',
+                    // 'pdfHtml5',
                     {
                         extend: 'colvis',
                         text: '<i class="icon-three-bars"></i> Visibility',
@@ -92,10 +92,10 @@ var DatatableButtonsHtml5 = function() {
                         extend: 'excelHtml5',
                         className: 'btn btn-light'
                     },
-                    {
-                        extend: 'pdfHtml5',
-                        className: 'btn btn-light'
-                    },
+                    // {
+                    //     extend: 'pdfHtml5',
+                    //     className: 'btn btn-light'
+                    // },
                     {
                         extend: 'colvis',
                         text: '<i class="icon-three-bars"></i> Visibility',

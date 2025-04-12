@@ -8,7 +8,7 @@
         <table id="time_slots_table" class="table datatable-button-html5-columns">
             <thead>
             <tr>
-                <th>S/N</th>
+                <th>الرقم التسلسلي</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Action</th>

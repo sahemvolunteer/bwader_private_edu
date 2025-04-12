@@ -75,7 +75,7 @@
                     <div class="tab-pane fade" id="ttr{{ $mc->id }}">                         <table class="table datatable-button-html5-columns">
                             <thead>
                             <tr>
-                                <th>S/N</th>
+                                <th>الرقم التسلسلي</th>
                                 <th>Name</th>
                                 <th>Class</th>
                                 <th>Type</th>

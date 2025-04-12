@@ -1,17 +1,17 @@
 @extends('layouts.master')
-@section('page_title', 'Manage Payments')
+@section('page_title', 'إدارة الأقساط')
 @section('content')
 
     <div class="card">
         <div class="card-header header-elements-inline">
-            <h6 class="card-title font-weight-bold">Manage Payment Records for {{ $sr->user->name}} </h6>
+            <h6 class="card-title font-weight-bold">أقساط الطالب {{ $sr->user->name}} </h6>
             {!! Qs::getPanelOptions() !!}
         </div>
 
         <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-highlight">
-                    <li class="nav-item"><a href="#all-uc" class="nav-link active" data-toggle="tab">Incomplete Payments</a></li>
-                    <li class="nav-item"><a href="#all-cl" class="nav-link" data-toggle="tab">Completed Payments</a></li>
+                    <li class="nav-item"><a href="#all-uc" class="nav-link active" data-toggle="tab">قسط غير مكتمل</a></li>
+                    <li class="nav-item"><a href="#all-cl" class="nav-link" data-toggle="tab">الأقساط المكتملة</a></li>
                 </ul>
 
         <div class="tab-content">
@@ -20,15 +20,15 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Title</th>
-                        <th>Pay_Ref</th>
-                        <th>Amount</th>
-                        <th>Paid</th>
-                        <th>Balance</th>
-                        <th>Pay Now</th>
-                        <th>Receipt_No</th>
-                        <th>Year</th>
-                        <th>Action</th>
+                        <th>العنوان</th>
+                        <th>رقم الدفع</th>
+                        <th>المبلغ</th>
+                        <th>المدفوع</th>
+                        <th>المتبقي</th>
+                        <th>الدفع الآن</th>
+                        <th>رقم الإيصال</th>
+                        <th>السنة</th>
+                        <th>إجراء</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -76,11 +76,11 @@
                                         <div class="dropdown-menu dropdown-menu-left">
 
                                             {{--Reset Payment--}}
-                                            <a id="{{ Qs::hash($uc->id) }}" onclick="confirmReset(this.id)" href="#" class="dropdown-item"><i class="icon-reset"></i> Reset Payment</a>
+                                            <a id="{{ Qs::hash($uc->id) }}" onclick="confirmReset(this.id)" href="#" class="dropdown-item"><i class="icon-reset"></i>إعادة تعيين الدفع</a>
                                             <form method="post" id="item-reset-{{ Qs::hash($uc->id) }}" action="{{ route('payments.reset_record', Qs::hash($uc->id)) }}" class="hidden">@csrf @method('delete')</form>
 
                                             {{--Receipt--}}
-                                                <a target="_blank" href="{{ route('payments.receipts', Qs::hash($uc->id)) }}" class="dropdown-item"><i class="icon-printer"></i> Print Receipt</a>
+                                                <a target="_blank" href="{{ route('payments.receipts', Qs::hash($uc->id)) }}" class="dropdown-item"><i class="icon-printer"></i> طباعة الإيصال</a>
                                             {{--PDF Receipt--}}
                             {{--                    <a  href="{{ route('payments.pdf_receipts', Qs::hash($uc->id)) }}" class="dropdown-item download-receipt"><i class="icon-download"></i> Download Receipt</a>--}}
 
@@ -98,13 +98,14 @@
                 <table class="table datatable-button-html5-columns table-responsive">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        <th>Pay_Ref</th>
-                        <th>Amount</th>
-                        <th>Receipt_No</th>
-                        <th>Year</th>
-                        <th>Action</th>
+                        
+                               <th>#</th>
+                        <th>العنوان</th>
+                        <th>رقم الدفع</th>
+                        <th>المبلغ</th>
+                        <th>رقم الإيصال</th>
+                        <th>السنة</th>
+                        <th>إجراء</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -1,6 +1,6 @@
 @extends('layouts.master')
-@section('page_title', 'My Dashboard')
+@section('page_title', 'لوحة التحكم')
 
 @section('content')
-    <h2>WELCOME {{ Auth::user()->name }}. This is your DASHBOARD</h2>
+    <h2>WELCOME {{ Auth::user()->name }}.لوحة التحكم الخاصة </h2>
     @endsection

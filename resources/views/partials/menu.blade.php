@@ -56,17 +56,7 @@
                 </li>
 
                 {{--Academics--}}
-                @if(Qs::userIsAcademic())
-                    <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['tt.index', 'ttr.edit', 'ttr.show', 'ttr.manage']) ? 'nav-item-expanded nav-item-open' : '' }} ">
-                        <a href="#" class="nav-link"><i class="icon-graduation2"></i> <span> Academics</span></a>
-
-                        <ul class="nav nav-group-sub" data-submenu-title="Manage Academics">
-
-                        {{--Timetables--}}
-                            <li class="nav-item"><a href="{{ route('tt.index') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['tt.index']) ? 'active' : '' }}">Timetables</a></li>
-                        </ul>
-                    </li>
-                    @endif
+             
 
                 {{--Administrative--}}
                 @if(Qs::userIsAdministrative())
@@ -148,14 +138,14 @@
                             {{--Student Promotion--}}
                             <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.promotion_manage']) ? 'nav-item-expanded' : '' }}"><a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.promotion_manage' ]) ? 'active' : '' }}">نجاح الطلاب </a>
                             <ul class="nav nav-group-sub">
-                                <li class="nav-item"><a href="{{ route('students.promotion') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion']) ? 'active' : '' }}">Promote Students</a></li>
-                                <li class="nav-item"><a href="{{ route('students.promotion_manage') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion_manage']) ? 'active' : '' }}">Manage Promotions</a></li>
+                                <li class="nav-item"><a href="{{ route('students.promotion') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion']) ? 'active' : '' }}">ترفيع الطلاب </a></li>
+                                <li class="nav-item"><a href="{{ route('students.promotion_manage') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion_manage']) ? 'active' : '' }}">إدارة الترفع</a></li>
                             </ul>
 
                             </li>
 
                             {{--Student Graduated--}}
-                            <li class="nav-item"><a href="{{ route('students.graduated') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['students.graduated' ]) ? 'active' : '' }}">تخرج طلاب</a></li>
+                            <li class="nav-item"><a href="{{ route('students.graduated') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['students.graduated' ]) ? 'active' : '' }}">تخريج الطلاب</a></li>
                                 @endif
 
                         </ul>
@@ -190,58 +180,7 @@
                 @endif
 
                 {{--Exam--}}
-                @if(Qs::userIsTeamSAT())
-                <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['exams.index', 'exams.edit', 'grades.index', 'grades.edit', 'marks.index', 'marks.manage', 'marks.bulk', 'marks.tabulation', 'marks.show', 'marks.batch_fix',]) ? 'nav-item-expanded nav-item-open' : '' }} ">
-                    <a href="#" class="nav-link"><i class="icon-books"></i> <span> الاختبارات</span></a>
-
-                    <ul class="nav nav-group-sub" data-submenu-title="Manage Exams">
-                        @if(Qs::userIsTeamSA())
-
-                        {{--Exam list--}}
-                            <li class="nav-item">
-                                <a href="{{ route('exams.index') }}"
-                                   class="nav-link {{ (Route::is('exams.index')) ? 'active' : '' }}">قائمة الاختبارات</a>
-                            </li>
-
-                            {{--Grades list--}}
-                            <li class="nav-item">
-                                    <a href="{{ route('grades.index') }}"
-                                       class="nav-link {{ in_array(Route::currentRouteName(), ['grades.index', 'grades.edit']) ? 'active' : '' }}">العلامات</a>
-                            </li>
-
-                            {{--Tabulation Sheet--}}
-                            <li class="nav-item">
-                                <a href="{{ route('marks.tabulation') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['marks.tabulation']) ? 'active' : '' }}">Tabulation Sheet</a>
-                            </li>
-
-                            {{--Marks Batch Fix--}}
-                            <li class="nav-item">
-                                <a href="{{ route('marks.batch_fix') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['marks.batch_fix']) ? 'active' : '' }}">Batch Fix</a>
-                            </li>
-                        @endif
-
-                        @if(Qs::userIsTeamSAT())
-                            {{--Marks Manage--}}
-                            <li class="nav-item">
-                                <a href="{{ route('marks.index') }}"
-                                   class="nav-link {{ in_array(Route::currentRouteName(), ['marks.index']) ? 'active' : '' }}">Marks</a>
-                            </li>
-
-                            {{--Marksheet--}}
-                            <li class="nav-item">
-                                <a href="{{ route('marks.bulk') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['marks.bulk', 'marks.show']) ? 'active' : '' }}">Marksheet</a>
-                            </li>
-
-                            @endif
-
-                    </ul>
-                </li>
-                @endif
-
-
-                {{--End Exam--}}
-
-                @include('pages.'.Qs::getUserType().'.menu')
+              
 
                 {{--Manage Account--}}
                 <li class="nav-item">

@@ -59,7 +59,7 @@
                             <table class="table datatable-button-html5-columns">
                                 <thead>
                                 <tr>
-                                    <th>S/N</th>
+                                    <th>الرقم التسلسلي</th>
                                     <th>Pin</th>
                                     <th>Used By</th>
                                     <th>User Type</th>

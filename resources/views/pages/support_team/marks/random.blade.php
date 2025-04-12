@@ -3,7 +3,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>S/N</th>
+            <th>الرقم التسلسلي</th>
             <th>Name</th>
             <th>ADM_NO</th>
             @if($class_type->code == 'J')

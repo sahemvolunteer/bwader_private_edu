@@ -44,7 +44,7 @@
                 <table class="table datatable-button-html5-columns">
                     <thead>
                     <tr>
-                        <th>S/N</th>
+                        <th>الرقم التسلسلي</th>
                         <th>Photo</th>
                         <th>Name</th>
                         <th>ADM_No</th>
@@ -60,7 +60,7 @@
                             <td>{{ $s->adm_no }}</td>
                             <td>
                                 <div class="dropdown">
-                                    <a href="#" class=" btn btn-danger" data-toggle="dropdown"> Manage Payments <i class="icon-arrow-down5"></i>
+                                    <a href="#" class=" btn btn-danger" data-toggle="dropdown">إدارة الأقساط <i class="icon-arrow-down5"></i>
                                     </a>
                             <div class="dropdown-menu dropdown-menu-left">
                                 <a href="{{ route('payments.invoice', [Qs::hash($s->user_id)]) }}" class="dropdown-item">All Payments</a>

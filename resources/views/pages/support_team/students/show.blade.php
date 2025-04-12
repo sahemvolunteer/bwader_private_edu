@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('page_title', 'Student Profile - '.$sr->user->name)
+@section('page_title', 'الملف الشخصي - '.$sr->user->name)
 @section('content')
 <div class="row">
     <div class="col-md-3 text-center">

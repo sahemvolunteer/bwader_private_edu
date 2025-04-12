@@ -89,6 +89,7 @@ class MyClassRepo
 
     public function getClassSections($class_id)
     {
+        //dd($class_id);
         return Section::where(['my_class_id' => $class_id])->orderBy('name', 'asc')->get();
     }
    public function getSectionTeacher($section_id)

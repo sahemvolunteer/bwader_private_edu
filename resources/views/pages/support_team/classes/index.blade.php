@@ -22,7 +22,7 @@
                                 <th>الرقم</th>
                                 <th>الاسم</th>
                                 <th>نوع الصف</th>
-                                <th>الأمر</th>
+                                <th>الإجراء</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -65,7 +65,9 @@
                             <div class="alert alert-info border-0 alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
 
-                                <span>When a class is created, a Section will be automatically created for the class, you can edit it or add more sections to the class at <a target="_blank" href="{{ route('sections.index') }}">Manage Sections</a></span>
+                                <span>
+                                    عندما يتم إضافة صف يتم إنشاء الشعبة الأولى بشكل افتارضي يمكنك تغير إعدادت الشعب من 
+                                    <a target="_blank" href="{{ route('sections.index') }}">Manage Sections</a></span>
                             </div>
                         </div>
                     </div>
@@ -75,14 +77,14 @@
                             <form class="ajax-store" method="post" action="{{ route('classes.store') }}">
                                 @csrf
                                 <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
+                                    <label class="col-lg-3 col-form-label font-weight-semibold">الاسم <span class="text-danger">*</span></label>
                                     <div class="col-lg-9">
-                                        <input name="name" value="{{ old('name') }}" required type="text" class="form-control" placeholder="Name of Class">
+                                        <input name="name" value="{{ old('name') }}" required type="text" class="form-control" >
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="class_type_id" class="col-lg-3 col-form-label font-weight-semibold">Class Type</label>
+                                    <label for="class_type_id" class="col-lg-3 col-form-label font-weight-semibold">النوع </label>
                                     <div class="col-lg-9">
                                         <select required data-placeholder="Select Class Type" class="form-control select" name="class_type_id" id="class_type_id">
                                             @foreach($class_types as $ct)
@@ -93,7 +95,7 @@
                                 </div>
 
                                 <div class="text-right">
-                                    <button id="ajax-btn" type="submit" class="btn btn-primary">Submit form <i class="icon-paperplane ml-2"></i></button>
+                                    <button id="ajax-btn" type="submit" class="btn btn-primary">إرسال <i class="icon-paperplane ml-2"></i></button>
                                 </div>
                             </form>
                         </div>

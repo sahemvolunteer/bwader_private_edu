@@ -18,7 +18,7 @@
                                 <i class="icon-people icon-2x text-warning-400 border-warning-400 border-3 rounded-round p-3 mb-3 mt-1"></i>
                             <br>
                             
-                                <h5 class="mb-0">Login to your account</h5>
+                                <h5 class="mb-0">تسجيل الدخول إلى حسابك</h5>
                                 {{-- <span class="d-block text-muted">Your credentials</span> --}}
                             </div>
 
@@ -43,15 +43,15 @@
                                 <div class="form-check mb-0">
                                     <label class="form-check-label">
                                         <input type="checkbox" name="remember" class="form-input-styled" {{ old('remember') ? 'checked' : '' }} data-fouc>
-                                        Remember
+                                        تذكرني
                                     </label>
                                 </div>
 
-                                <a href="{{ route('password.request') }}" class="ml-auto">Forgot password?</a>
+                                <a href="{{ route('password.request') }}" class="ml-auto">هل نسيت كلمة السر؟</a>
                             </div>
 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block">Sign in <i class="icon-circle-right2 ml-2"></i></button>
+                                <button type="submit" class="btn btn-primary btn-block">تسجيل الدخول <i class="icon-circle-right2 ml-2"></i></button>
                             </div>
 
                            {{-- <div class="form-group">

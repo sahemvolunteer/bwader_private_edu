@@ -67,9 +67,24 @@ class StudentRecordController extends Controller
     }
 
     public function store(StudentRecordCreate $req)
-    {
+    { 
+    // dd("error");
        $data =  $req->only(Qs::getUserRecord());
        $sr =  $req->only(Qs::getStudentData());
+       
+         $sp = $req->only([
+        'national_id', 'form_date', 'confirmation_date', 'identified_by', 'exception_reason',
+        'withdrawal', 'transfer_school', 'withdrawal_date', 'approved_mobile', 'custom_mobile',
+        'kinship', 'region', 'transport_service', 'subscription_type', 'transport_group',
+        'registration_place', 'registration_number', 'civil_registry_office',
+        'governorate', 'housing_sector','commitment_behavior_year','commitment_academic_year','commitment_delay_year','commitment_fees_year','school_notes','admin_notes','health_notes','parent_recommendations'
+    ]);
+      $parent_info = $req->only([
+        'father_name', 'grandfather_name', 'father_job', 'father_education', 'father_workplace', 'father_phone',
+        'mother_firstname', 'mother_lastname', 'grandmother_name', 'mother_job', 'mother_education', 'mother_workplace',
+        'mother_phone', 'father_birth_date','father_nationalit', 'mother_birth_date', 'mother_nationality	',
+        'separated', 'f_deceased', 'm_deceased'
+    ]);
 
         $ct = $this->my_class->findTypeByClass($req->my_class_id)->code;
        /* $ct = ($ct == 'J') ? 'JSS' : $ct;
@@ -100,6 +115,31 @@ class StudentRecordController extends Controller
         $sr['session'] = Qs::getSetting('current_session');
  
         $this->student->createRecord($sr); // Create Student
+         $sp['student_id'] = $user->id;
+    DB::table('student_personal_info')->insert($sp);
+
+    // 7️⃣ حفظ معلومات الوالدين في جدول parent_info
+    $parent_info['student_id'] = $user->id;
+    DB::table('parent_info')->insert($parent_info);
+     // 8️⃣ حفظ الإخوة في جدول siblings
+    if ($req->has('siblings')) {
+        foreach ($req->siblings as $sibling_id) {
+            // تأكد من أن العلاقة بين الطالب والأخ ليست موجودة مسبقًا
+            if ($user->id != $sibling_id) {  // لا نريد أن يكون الطالب أخًا لنفسه
+                DB::table('siblings')->insert([
+                    'student_id' => $user->id,
+                    'sibling_id' => $sibling_id,
+                    'relation_type' => $req->input('relation_type', null) // إذا كنت تستخدم نوع العلاقة
+                ]);
+                DB::table('siblings')->insert([
+                    'student_id' => $sibling_id,
+                    'sibling_id' => $user->id,
+                   
+                ]);
+            }
+        }
+    }
+   
         return Qs::jsonStoreOk();
     }
 
@@ -214,42 +254,129 @@ public function listBySection($class_id, $section_id)
         if(!$sr_id){return Qs::goWithDanger();}
 
         $data['sr'] = $this->student->getRecord(['id' => $sr_id])->first();
+        $student_id = $data['sr']->user_id;
+
+$data['personal_info'] = DB::table('student_personal_info')->where('student_id', $student_id)->first();
+$data['parent_info'] = DB::table('parent_info')->where('student_id', $student_id)->first();
+//$data['siblings'] = DB::table('siblings')->where('student_id', $student_id)->pluck('sibling_id')->toArray();
+$data['siblings_ids'] = DB::table('siblings')->where('student_id', $student_id)->pluck('sibling_id')->toArray();
+
         $data['my_classes'] = $this->my_class->all();
         $data['parents'] = $this->user->getUserByType('parent');
         $data['dorms'] = $this->student->getAllDorms();
         $data['states'] = $this->loc->getStates();
+                $data['students']=$this->user->getUserByType('student');
+
         $data['nationals'] = $this->loc->getAllNationals();
         return view('pages.support_team.students.edit', $data);
     }
 
-    public function update(StudentRecordUpdate $req, $sr_id)
-    {
-        $sr_id = Qs::decodeHash($sr_id);
-        if(!$sr_id){return Qs::goWithDanger();}
+    // public function update(StudentRecordUpdate $req, $sr_id)
+    // {
+    //     $sr_id = Qs::decodeHash($sr_id);
+    //     if(!$sr_id){return Qs::goWithDanger();}
 
-        $sr = $this->student->getRecord(['id' => $sr_id])->first();
-        $d =  $req->only(Qs::getUserRecord());
-        $d['name'] = ucwords($req->name);
+    //     $sr = $this->student->getRecord(['id' => $sr_id])->first();
+    //     $d =  $req->only(Qs::getUserRecord());
+    //     $d['name'] = ucwords($req->name);
 
-        if($req->hasFile('photo')) {
-            $photo = $req->file('photo');
-            $f = Qs::getFileMetaData($photo);
-            $f['name'] = 'photo.' . $f['ext'];
-            $f['path'] = $photo->storeAs(Qs::getUploadPath('student').$sr->user->code, $f['name']);
-            $d['photo'] = asset('storage/' . $f['path']);
-        }
+    //     if($req->hasFile('photo')) {
+    //         $photo = $req->file('photo');
+    //         $f = Qs::getFileMetaData($photo);
+    //         $f['name'] = 'photo.' . $f['ext'];
+    //         $f['path'] = $photo->storeAs(Qs::getUploadPath('student').$sr->user->code, $f['name']);
+    //         $d['photo'] = asset('storage/' . $f['path']);
+    //     }
 
-        $this->user->update($sr->user->id, $d); // Update User Details
+    //     $this->user->update($sr->user->id, $d); // Update User Details
 
-        $srec = $req->only(Qs::getStudentData());
+    //     $srec = $req->only(Qs::getStudentData());
 
-        $this->student->updateRecord($sr_id, $srec); // Update St Rec
+    //     $this->student->updateRecord($sr_id, $srec); // Update St Rec
 
-        /*** If Class/Section is Changed in Same Year, Delete Marks/ExamRecord of Previous Class/Section ****/
-        Mk::deleteOldRecord($sr->user->id, $srec['my_class_id']);
+    //     /*** If Class/Section is Changed in Same Year, Delete Marks/ExamRecord of Previous Class/Section ****/
+    //     Mk::deleteOldRecord($sr->user->id, $srec['my_class_id']);
 
-        return Qs::jsonUpdateOk();
+    //     return Qs::jsonUpdateOk();
+    // }
+public function update(StudentRecordUpdate $req, $sr_id)
+{
+    $sr_id = Qs::decodeHash($sr_id);
+    if (!$sr_id) {
+        return Qs::goWithDanger();
     }
+
+    $sr = $this->student->getRecord(['id' => $sr_id])->first();
+    if (!$sr) {
+        return Qs::goWithDanger();
+    }
+
+    $data = $req->only(Qs::getUserRecord());
+    $data['name'] = ucwords($req->name);
+
+    if ($req->hasFile('photo')) {
+        $photo = $req->file('photo');
+        $f = Qs::getFileMetaData($photo);
+        $f['name'] = 'photo.' . $f['ext'];
+        $f['path'] = $photo->storeAs(Qs::getUploadPath('student') . $sr->user->code, $f['name']);
+        $data['photo'] = asset('storage/' . $f['path']);
+    }
+
+    $this->user->update($sr->user->id, $data); // تحديث بيانات المستخدم
+
+    $srec = $req->only(Qs::getStudentData());
+    $this->student->updateRecord($sr_id, $srec); // تحديث سجل الطالب
+
+    Mk::deleteOldRecord($sr->user->id, $srec['my_class_id']); // حذف سجلات الدرجات إذا تغير الصف
+
+    // ✅ تحديث معلومات الطالب الشخصية
+    $sp = $req->only([
+        'national_id', 'form_date', 'confirmation_date', 'identified_by', 'exception_reason',
+        'withdrawal', 'transfer_school', 'withdrawal_date', 'approved_mobile', 'custom_mobile',
+        'kinship', 'region', 'transport_service', 'subscription_type', 'transport_group',
+        'registration_place', 'registration_number', 'civil_registry_office',
+        'governorate', 'housing_sector','commitment_behavior_year','commitment_academic_year','commitment_delay_year','commitment_fees_year','school_notes','admin_notes','health_notes','parent_recommendations'
+    ]);
+
+    DB::table('student_personal_info')->updateOrInsert(
+        ['student_id' => $sr->user->id],
+        $sp
+    );
+
+    // ✅ تحديث معلومات الوالدين
+    $parent_info = $req->only([
+        'father_name', 'grandfather_name', 'father_job', 'father_education', 'father_workplace', 'father_phone',
+        'mother_firstname', 'mother_lastname', 'grandmother_name', 'mother_job', 'mother_education', 'mother_workplace',
+        'mother_phone', 'father_birth_date','father_nationalit', 'mother_birth_date', 'mother_nationality',
+        'separated', 'f_deceased', 'm_deceased'
+    ]);
+
+    DB::table('parent_info')->updateOrInsert(
+        ['student_id' => $sr->user->id],
+        $parent_info
+    );
+
+    // ✅ تحديث الإخوة (بحذف الموجودين أولاً ثم إعادة الإدخال)
+    DB::table('siblings')->where('student_id', $sr->user->id)->orWhere('sibling_id', $sr->user->id)->delete();
+
+    if ($req->has('siblings')) {
+        foreach ($req->siblings as $sibling_id) {
+            if ($sr->user->id != $sibling_id) {
+                DB::table('siblings')->insert([
+                    'student_id' => $sr->user->id,
+                    'sibling_id' => $sibling_id,
+                    'relation_type' => $req->input('relation_type', null)
+                ]);
+                DB::table('siblings')->insert([
+                    'student_id' => $sibling_id,
+                    'sibling_id' => $sr->user->id,
+                ]);
+            }
+        }
+    }
+
+    return Qs::jsonUpdateOk();
+}
 
     public function destroy($st_id)
     {

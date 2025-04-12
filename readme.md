@@ -4,27 +4,6 @@
 
 **SCREENSHOTS** 
 
-**Dashboard**
-<img src="https://i.ibb.co/D4T0z6T/dashboard.png" alt="dashboard" border="0">
-
-**Login**
-<img src="https://i.ibb.co/Rh1Bfwk/login.png" alt="login" border="0">
-
-**Student Marksheet**
-<img src="https://i.ibb.co/GCgv5ZR/marksheet.png" alt="marksheet" border="0">
-
-**System Settings**
-<img src="https://i.ibb.co/Kmrhw69/system-settings.png" alt="system-settings" border="0">
-
-**Print Marksheet**
-<div style="clear: both"> </div>
-<img src="https://i.ibb.co/5c1GHCj/capture-20210530-115521-crop.png" alt="print-marksheet">
-
-**Print Tabulation Sheet & Marksheet**
-<img src="https://i.ibb.co/QmscPfn/capture-20210530-115802.png" alt="tabulation-sheet" border="0">
-
-<hr />  
-
 There are 7 types of user accounts. They include:
  
 Administrators (Super Admin & Admin)
@@ -49,12 +28,12 @@ After seeding. Login details as follows:
 
 | Account Type  | Username | Email | Password |
 | ------------- | -------- | ----- | -------- |
-| Super Admin | cj | cj@cj.com | cj |
-|  Admin | admin | admin@admin.com | cj |
-|  Teacher | teacher | teacher@teacher.com | cj |
-|  Parent | parent | parent@parent.com | cj |
-|  Accountant | accountant | accountant@accountant.com | cj |
-|  Student | student | student@student.com | cj |
+| Super Admin | njoud | njoud@gmail.com | 123456 |
+|  Admin | admin | admin@admin.com |123456 |
+|  Teacher | teacher | teacher@teacher.com | 123456 |
+|  Parent | parent | parent@parent.com | 123456 |
+|  Accountant | accountant | accountant@accountant.com | 123456 |
+|  Student | student | student@student.com | 123456 |
 
 #### **FUNCTIONS OF ACCOUNTS** 
 
@@ -111,7 +90,7 @@ Your Contributions & suggestions are welcomed. Please use Pull Request
 
 ### **Security Vulnerabilities**
 
-If you discover a security vulnerability within LAV_SMS, please send an e-mail to CJ Inspired via cjay.pub@gmail.com. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within LAV_SMS, please send an e-mail to private shool Inspired via njoudedress@gmail.com. All security vulnerabilities will be promptly addressed.
 
 ***Please Note*** that some sections of this project are in the work-in-progress stage and would be updated soon. These include:
 
@@ -119,5 +98,5 @@ If you discover a security vulnerability within LAV_SMS, please send an e-mail t
 - Librarian/Acountant user pages
 - Library Resources/Study Materials Upload for Students
 
-### **Contact [CJ INSPIRED]**
-- Phone : +2347068149559
+### **Contact [NJOUD EDRESS]**
+- Phone : +971554991865

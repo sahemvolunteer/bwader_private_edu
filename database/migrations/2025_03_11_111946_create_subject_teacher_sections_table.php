@@ -15,12 +15,13 @@ class CreateSubjectTeacherSectionsTable extends Migration
     {
        Schema::create('subject_teacher_sections', function (Blueprint $table) {
     $table->id();  // معرف الجدول
-    $table->unsignedBigInteger('subject_id');  // يجب أن يكون نفس النوع من جدول subjects
-    $table->unsignedBigInteger('teacher_id');
-    $table->unsignedBigInteger('section_id');
-    
+    $table->unsignedInteger('subject_id');  // يجب أن يكون نفس النوع من جدول subjects
+     $table->unsignedInteger('teacher_id');
+    $table->unsignedInteger('section_id');
+       //     $table->unsignedInteger('student_id'); // يجب أن يكون متطابقًا مع users.id
+
     $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-    $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+    $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
     $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
 
     $table->timestamps();

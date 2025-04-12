@@ -25,15 +25,15 @@
 
                     <div class="text-center mb-3">
                         <i class="icon-spinner11 icon-2x text-warning border-warning border-3 rounded-round p-3 mb-3 mt-1"></i>
-                        <h5 class="mb-0">Password recovery</h5>
-                        <span class="d-block text-muted">We'll send you instructions in email</span>
+                        <h5 class="mb-0">تغيير كلمة السر </h5>
+                        <span class="d-block text-muted">سيتم إرسال التعليمات إلى الإيميل </span>
                     </div>
 
                     <div class="form-group ">
-                        <input name="email" required type="email" class="form-control" value="{{ old('email') }}" placeholder="Your email">
+                        <input name="email" required type="email" class="form-control" value="{{ old('email') }}" placeholder=" email">
                     </div>
 
-                    <button type="submit" class="btn bg-blue btn-block"><i class="icon-spinner11 mr-2"></i> Reset password</button>
+                    <button type="submit" class="btn bg-blue btn-block"><i class="icon-spinner11 mr-2"></i> إعادة تعيين كلمة السر</button>
                 </div>
             </div>
         </form>

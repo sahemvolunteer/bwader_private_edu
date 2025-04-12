@@ -4,7 +4,7 @@
 
 <div class="card">
     <div class="card-header header-elements-inline">
-        <h6 class="card-title">Students List</h6>
+        <h6 class="card-title">قائمة الطلاب</h6>
         {!! Qs::getPanelOptions() !!}
     </div>
 <div class="card-body">
@@ -12,7 +12,7 @@
         @if(Qs::userIsTeamSA())
         <li class="nav-item"><a href="{{ route('students.list', ['class_id' => $my_class->id]) }}" 
             class="nav-link {{ !isset($selected_section) ? 'active' : '' }}" data-toggle="tab">
-            All {{ $my_class->name }} Students
+            جميع طلاب  {{ $my_class->name }} 
         </a></li>
         @endif     
 
@@ -56,12 +56,12 @@
                     <thead>
                     <tr>
                         <th>رقم تسلسل</th>
-                        <th>Photo</th>
-                        <th>Name</th>
-                        <th>ADM_No</th>
-                        <th>Section</th>
-                        <th>Email</th>
-                        <th>Action</th>
+                        <th>الصورة</th>
+                        <th>الاسم</th>
+                        <th>رقم القبول</th>
+                        <th>الشعبة</th>
+                        <th>رقم الاتصال</th>
+                        <th>الإجراءات</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -72,7 +72,7 @@
                             <td>{{ $s->user->name }}</td>
                             <td>{{ $s->adm_no }}</td>
                             <td>{{ $my_class->name.' '.$s->section->name }}</td>
-                            <td>{{ $s->user->email }}</td>
+                            <td>{{ $s->user->phone }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
@@ -81,16 +81,16 @@
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-left">
-                                            <a href="{{ route('students.show', Qs::hash($s->id)) }}" class="dropdown-item"><i class="icon-eye"></i> View Profile</a>
+                                            <a href="{{ route('students.show', Qs::hash($s->id)) }}" class="dropdown-item"><i class="icon-eye"></i> عرض الملف</a>
                                             @if(Qs::userIsTeamSA())
-                                                <a href="{{ route('students.edit', Qs::hash($s->id)) }}" class="dropdown-item"><i class="icon-pencil"></i> Edit</a>
-                                                <a href="{{ route('st.reset_pass', Qs::hash($s->user->id)) }}" class="dropdown-item"><i class="icon-lock"></i> Reset password</a>
+                                                <a href="{{ route('students.edit', Qs::hash($s->id)) }}" class="dropdown-item"><i class="icon-pencil"></i> تعديل</a>
+                                                <a href="{{ route('st.reset_pass', Qs::hash($s->user->id)) }}" class="dropdown-item"><i class="icon-lock"></i> إعادة تعيين كلمة السر</a>
                                             @endif
-                                            <a target="_blank" href="{{ route('marks.year_selector', Qs::hash($s->user->id)) }}" class="dropdown-item"><i class="icon-check"></i> Marksheet</a>
+                                            <a target="_blank" href="{{ route('marks.year_selector', Qs::hash($s->user->id)) }}" class="dropdown-item"><i class="icon-check"></i> جدول العلامات</a>
 
                                             {{--Delete--}}
                                             @if(Qs::userIsSuperAdmin())
-                                                <a id="{{ Qs::hash($s->user->id) }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item"><i class="icon-trash"></i> Delete</a>
+                                                <a id="{{ Qs::hash($s->user->id) }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item"><i class="icon-trash"></i> حذف</a>
                                                 <form method="post" id="item-delete-{{ Qs::hash($s->user->id) }}" action="{{ route('students.destroy', Qs::hash($s->user->id)) }}" class="hidden">@csrf @method('delete')</form>
                                             @endif
                                         </div>

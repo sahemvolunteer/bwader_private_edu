@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('page_title', 'Manage Payments')
+@section('page_title', 'إدارة الأقساط')
 @section('content')
 
     <div class="card">
@@ -49,9 +49,9 @@
 
         <div class="card-body">
             <ul class="nav nav-tabs nav-tabs-highlight">
-                <li class="nav-item"><a href="#all-payments" class="nav-link active" data-toggle="tab">All Classes</a></li>
+                <li class="nav-item"><a href="#all-payments" class="nav-link active" data-toggle="tab">كل الصفوف</a></li>
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Class Payments</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">أقساط الصفوف</a>
                     <div class="dropdown-menu dropdown-menu-right">
                         @foreach($my_classes as $mc)
                             <a href="#pc-{{ $mc->id }}" class="dropdown-item" data-toggle="tab">{{ $mc->name }}</a>
@@ -145,9 +145,9 @@
 
                                                 <div class="dropdown-menu dropdown-menu-left">
                                                     {{--Edit--}}
-                                                    <a href="{{ route('payments.edit', $p->id) }}" class="dropdown-item"><i class="icon-pencil"></i> Edit</a>
+                                                    <a href="{{ route('payments.edit', $p->id) }}" class="dropdown-item"><i class="icon-pencil"></i> تعديل</a>
                                                     {{--Delete--}}
-                                                    <a id="{{ $p->id }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item"><i class="icon-trash"></i> Delete</a>
+                                                    <a id="{{ $p->id }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item"><i class="icon-trash"></i> حذف</a>
                                                     <form method="post" id="item-delete-{{ $p->id }}" action="{{ route('payments.destroy', $p->id) }}" class="hidden">@csrf @method('delete')</form>
 
                                                 </div>
