@@ -1,6 +1,5 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
-# تثبيت التبعيات
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -9,28 +8,23 @@ RUN apt-get update && apt-get install -y \
     locales \
     zip \
     jpegoptim optipng pngquant gifsicle \
-    vim unzip git curl
+    vim unzip git curl \
+    libonig-dev libxml2-dev \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# تثبيت composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# إعداد مجلد العمل
 WORKDIR /var/www
 
-# نسخ المشروع إلى الحاوية
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader -vvv
+
 COPY . .
 
-# تثبيت الاعتماديات
-RUN composer install --no-dev --optimize-autoloader
-
-# إعداد صلاحيات
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# ضبط المتغيرات
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 
-# تشغيل السيرفر
-CMD php artisan serve --host=0.0.0.0 --port=8000
-
 EXPOSE 8000
+CMD php artisan serve --host=0.0.0.0 --port=8000
