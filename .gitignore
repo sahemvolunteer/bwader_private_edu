@@ -12,6 +12,11 @@ yarn-error.log
 .phpunit.result.cache
 important
 _ide_helper.php
-storage
 .phpstorm.meta.php
 .editorconfig
+
+# allow storage and bootstrap/cache directories
+!storage/
+!storage/**/*
+!bootstrap/cache/
+!bootstrap/cache/**/*
