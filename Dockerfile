@@ -16,11 +16,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader -vvv
-
+# انسخ المشروع بالكامل أول
 COPY . .
 
+# بعدها شغّل composer install
+RUN composer install --no-dev --optimize-autoloader -vvv
+
+# ضبط صلاحيات
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 ENV APP_ENV=production
