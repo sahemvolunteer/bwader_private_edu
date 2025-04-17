@@ -20,11 +20,11 @@ class SectionsTableSeeder extends Seeder
 
         $data = [
             ['name' => 'الشعبة الثانية', 'my_class_id' => $c[0], 'active' => 1],
-            ['name' => 'الشعبة الثانية', 'my_class_id' => $c[0], 'active' => 0],
+            ['name' => 'الشعبة الثالثة', 'my_class_id' => $c[0], 'active' => 0],
             ['name' => 'الشعبة الثانية', 'my_class_id' => $c[1], 'active' => 1],
-          
+
             ['name' => 'الشعبة الثانية', 'my_class_id' => $c[3], 'active' => 1],
-        
+
         ];
 
         DB::table('sections')->insert($data);

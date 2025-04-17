@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -15,15 +14,15 @@ class ClassTypesTableSeeder extends Seeder
     public function run()
     {
         DB::table('class_types')->delete();
-
         $data = [
-            ['name' => 'Creche', 'code' => 'C'],
-            ['name' => 'Pre Nursery', 'code' => 'PN'],
-            ['name' => 'Nursery', 'code' => 'N'],
-            ['name' => 'Primary', 'code' => 'P'],
-            ['name' => 'Junior Secondary', 'code' => 'J'],
-            ['name' => 'Senior Secondary', 'code' => 'S'],
+            ['name' => 'حضانة', 'code' => 'C'],
+            ['name' => 'تمهيدي', 'code' => 'PN'],
+            ['name' => 'روضة', 'code' => 'N'],
+            ['name' => 'ابتدائي', 'code' => 'P'],
+            ['name' => 'متوسط', 'code' => 'J'],
+            ['name' => 'ثانوي', 'code' => 'S'],
         ];
+
 
         DB::table('class_types')->insert($data);
 

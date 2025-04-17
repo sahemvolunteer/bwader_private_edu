@@ -18,14 +18,7 @@ class StudentRecordUpdate extends FormRequest
         return [
             'name' => 'required|string|min:6|max:150',
 
-            'adm_no' => [
-                'sometimes',
-                'nullable',
-                'alpha_num',
-                'min:3',
-                'max:150',
-                Rule::unique('student_records', 'adm_no')->ignore($this->route('student')),
-            ], 'gender' => 'required|string',
+            'gender' => 'required|string',
             'year_admitted' => 'sometimes|string',
             'phone' => 'sometimes|nullable|string|min:6|max:20',
             'email' => 'sometimes|nullable|email|max:100|unique:users,email,' . $this->route('student'),
@@ -45,7 +38,8 @@ class StudentRecordUpdate extends FormRequest
             'file' => 'sometimes|file|mimes:pdf|max:2048',
 
             // بيانات الطالب الشخصية
-            'national_id' => 'nullable|string|max:20|unique:student_personal_info,national_id,' . $this->route('student_id') . ',student_id',
+            'national_id' => 'nullable|string|max:20',
+            //|unique:student_personal_info,national_id,' . $this->route('student_id') . ',national_id',
             'form_date' => 'nullable|date',
             'confirmation_date' => 'nullable|date',
             'identified_by' => 'nullable|string|max:255',
@@ -101,12 +95,32 @@ class StudentRecordUpdate extends FormRequest
             // الإخوة
             'siblings' => 'nullable|array',
             'siblings.*' => 'exists:users,id',
+            'rtype' => 'nullable|string',
+            'lastschool' => 'nullable|string|max:255',
+            'rdocument' => 'nullable|string|max:255',
+            'ndocument' => 'nullable|string|max:255',
+            'ddocument' => 'nullable|string|max:255',
+            'note_register' => 'nullable|string|max:255',
+            'certificate_number' => 'nullable|string|max:255',
         ];
     }
 
     public function attributes()
     {
         return (new StudentRecordCreate)->attributes(); // إعادة استخدام نفس الخصائص
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -128,6 +142,19 @@ class StudentRecordUpdate extends FormRequest
     public function messages()
     {
         return (new StudentRecordCreate)->messages(); // إعادة استخدام نفس الرسائل
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

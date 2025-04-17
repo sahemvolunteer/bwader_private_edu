@@ -13,7 +13,7 @@ class MyClassesTableSeeder extends Seeder
      *
      * @return void
      */
-    
+
 
     public function run()
     {
@@ -21,13 +21,13 @@ class MyClassesTableSeeder extends Seeder
         $ct = ClassType::pluck('id')->all();
 
         $data = [
-            ['name' => 'الصف 1', 'class_type_id' => $ct[2]],
-            ['name' => 'الصف 2', 'class_type_id' => $ct[2]],
-            ['name' => 'الصف 3', 'class_type_id' => $ct[2]],
-            ['name' => 'الصف 4   ', 'class_type_id' => $ct[3]],
-            ['name' => ' الصف 5', 'class_type_id' => $ct[3]],
-           
-            ];
+            ['name' => 'الصف الأول', 'class_type_id' => $ct[2]],
+            ['name' => 'الصف الثاني', 'class_type_id' => $ct[2]],
+            ['name' => 'الصف الثالث', 'class_type_id' => $ct[2]],
+            ['name' => 'الصف الرابع   ', 'class_type_id' => $ct[3]],
+            ['name' => ' الصف الخامس', 'class_type_id' => $ct[3]],
+
+        ];
 
         DB::table('my_classes')->insert($data);
 

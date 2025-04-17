@@ -145,7 +145,7 @@ if(lastName.startsWith('ال'))
     <div class="col-md-6">
                             <div class="form-group text-right">
                                 <label>اسم الجد: <span class="text-danger">*</span></label>
-                                <input value="{{ old('grandfather') }}" class="form-control" placeholder="" name="grandfather" type="text" required>
+                                <input value="{{ old('grandfather_name') }}" class="form-control" placeholder="" name="grandfather_name" type="text" required>
                             </div>
                     
                          <div class="form-group text-right">
@@ -273,11 +273,11 @@ if(lastName.startsWith('ال'))
     </div>
     <div class="col-md-3">
         <div class="form-group text-right">
-            <label for="father_nationalit">جنسية الأب: <span class="text-danger">*</span></label>
-            <select required name="father_nationalit" id="father_nationalit" class="select-search form-control">
+            <label for="father_nationality">جنسية الأب: <span class="text-danger">*</span></label>
+            <select required name="father_nationality" id="father_nationality" class="select-search form-control">
                 <option value=""></option>
                 @foreach($nationals as $nal)
-                    <option {{ old('father_nationalit') == $nal->id ? 'selected' : '' }} value="{{ $nal->id }}">{{ $nal->name }}</option>
+                    <option {{ old('father_nationality') == $nal->id ? 'selected' : '' }} value="{{ $nal->id }}">{{ $nal->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -291,7 +291,7 @@ if(lastName.startsWith('ال'))
     <div class="col-md-3">
         <div class="form-group text-right">
             <label>رقم الهاتف:</label>
-            <input value="{{ old('phonefather') }}" type="text" name="phone2" class="form-control" maxlength="8" pattern="\d{8}" title="يجب أن يكون 8 أرقام">
+            <input value="{{ old('father_phone') }}" type="text" name="father_phone" class="form-control" maxlength="8" pattern="\d{8}" title="يجب أن يكون 8 أرقام">
         </div>
     </div>
     <div class="col-md-3">
@@ -317,11 +317,11 @@ if(lastName.startsWith('ال'))
     </div>
     <div class="col-md-3">
         <div class="form-group text-right">
-            <label for="mother_nationalit">جنسية الأم: <span class="text-danger">*</span></label>
-            <select required name="mother_nationalit" id="mother_nationalit" class="select-search form-control">
+            <label for="mother_nationality">جنسية الأم: <span class="text-danger">*</span></label>
+            <select required name="mother_nationality" id="mother_nationality" class="select-search form-control">
                 <option value=""></option>
                 @foreach($nationals as $nal)
-                    <option {{ old('mother_nationalit') == $nal->id ? 'selected' : '' }} value="{{ $nal->id }}">{{ $nal->name }}</option>
+                    <option {{ old('mother_nationality') == $nal->id ? 'selected' : '' }} value="{{ $nal->id }}">{{ $nal->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -329,13 +329,13 @@ if(lastName.startsWith('ال'))
     <div class="col-md-3">
         <div class="form-group text-right">
             <label>رقم الجوال:<span class="text-danger">*</span></label>
-            <input value="{{ old('phone2') }}"  type="text" name="phonemother" class="form-control" maxlength="10" pattern="\d{10}" title="يجب أن يكون 10 أرقام">
+            <input value="{{ old('phone2') }}"  type="text" name="phone2" class="form-control" maxlength="10" pattern="\d{10}" title="يجب أن يكون 10 أرقام">
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group text-right">
             <label>رقم الهاتف:</label>
-            <input value="{{ old('phonemother') }}" type="text" name="phone2mother" class="form-control" maxlength="8" pattern="\d{8}" title="يجب أن يكون 8 أرقام">
+            <input value="{{ old('mother_phone') }}" type="text" name="mother_phone" class="form-control" maxlength="8" pattern="\d{8}" title="يجب أن يكون 8 أرقام">
         </div>
     </div>
     <div class="col-md-3">
@@ -384,7 +384,7 @@ if(lastName.startsWith('ال'))
         <div class="col-md-6">
             <div class="form-group text-right">
                 <label for="civil_registry_office">أمانة السجل المدني:</label>
-                <input type="text" name="civil_registry_office" class="form-control" value="{{ old('civil_registry_office') }}">
+                <input type="text" required name="civil_registry_office" class="form-control" value="{{ old('civil_registry_office') }}">
             </div>
         </div>
         <div class="col-md-6">
@@ -625,8 +625,8 @@ if(lastName.startsWith('ال'))
                                 <label for="Rtype">نوع التسجيل : <span class="text-danger">*</span></label>
                                 <select class="select form-control text-right  " id="Rtype" name="Rtype" required data-fouc data-placeholder="">
                                     <option value=""></option>
-                                    <option {{ (old('Rtype') == 'New') ? 'selected' : '' }} value="New">مستجد</option>
-                                    <option {{ (old('Rtype') == 'Transfer') ? 'selected' : '' }} value="Transfer">منقول</option>
+                                    <option {{ (old('rtype') == 'New') ? 'selected' : '' }} value="New">مستجد</option>
+                                    <option {{ (old('rtype') == 'Transfer') ? 'selected' : '' }} value="Transfer">منقول</option>
                                 </select>
                             </div>
                         </div>

@@ -72,7 +72,7 @@
                                 <span class="font-weight-bold font-italic">M-D-Y أو M/D/Y</span>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label for="lock_exam" class="col-lg-3 col-form-label font-weight-semibold">قفل الامتحانات</label>
                             <div class="col-lg-3">
                                 <select class="form-control select" name="lock_exam" id="lock_exam">
@@ -83,11 +83,11 @@
                             <div class="col-lg-6">
                                     <span class="font-weight-bold font-italic text-info-800">{{ __('msg.lock_exam') }}</span>
                             </div>
-                        </div>
+                        </div> --}}
                 </div>
                 <div class="col-md-6 text-right">
                     {{-- الرسوم الدراسية --}}
-               <fieldset>
+               {{-- <fieldset>
                    <legend><strong>رسوم الفصل القادم</strong></legend>
                    @foreach($class_types as $ct)
                    <div class="form-group row text-right">
@@ -97,7 +97,7 @@
                        </div>
                    </div>
                    @endforeach
-               </fieldset>
+               </fieldset> --}}
                     <hr class="divider">
 
                     {{-- الشعار --}}

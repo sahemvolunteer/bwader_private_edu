@@ -1,24 +1,15 @@
-<table class="table table-bordered table-responsive text-center">
+<table class="table table-bordered table-responsive text-center" style="direction: rtl;">
     <thead>
     <tr>
         <th rowspan="2">الرقم التسلسلي</th>
-        <th rowspan="2">SUBJECTS</th>
-        <th rowspan="2">CA1<br>(20)</th>
-        <th rowspan="2">CA2<br>(20)</th>
-        <th rowspan="2">EXAMS<br>(60)</th>
-        <th rowspan="2">TOTAL<br>(100)</th>
-
-        {{--@if($ex->term == 3) --}}{{-- 3rd Term --}}{{--
-        <th rowspan="2">TOTAL <br>(100%) 3<sup>RD</sup> TERM</th>
-        <th rowspan="2">1<sup>ST</sup> <br> TERM</th>
-        <th rowspan="2">2<sup>ND</sup> <br> TERM</th>
-        <th rowspan="2">CUM (300%) <br> 1<sup>ST</sup> + 2<sup>ND</sup> + 3<sup>RD</sup></th>
-        <th rowspan="2">CUM AVE</th>
-        @endif--}}
-
-        <th rowspan="2">GRADE</th>
-        <th rowspan="2">SUBJECT <br> POSITION</th>
-        <th rowspan="2">REMARKS</th>
+        <th rowspan="2">المادة</th>
+        <th rowspan="2">المذاكرة الأولى <br>(20)</th>
+        <th rowspan="2">المذاكرة الثانية<br>(20)</th>
+        <th rowspan="2">الامتحان<br>(60)</th>
+        <th rowspan="2">المجموع<br>(100)</th>
+        <th rowspan="2">التقدير</th>
+        <th rowspan="2">ترتيب المادة</th>
+        <th rowspan="2">الملاحظات</th>
     </tr>
     </thead>
 
@@ -38,17 +29,6 @@
                     @else {{ '-' }}
                     @endif
                 </td>
-
-                {{--3rd Term--}}
-                {{-- @if($ex->term == 3)
-                     <td>{{ $mk->tex3 ?: '-' }}</td>
-                     <td>{{ Mk::getSubTotalTerm($student_id, $sub->id, 1, $mk->my_class_id, $year) }}</td>
-                     <td>{{ Mk::getSubTotalTerm($student_id, $sub->id, 2, $mk->my_class_id, $year) }}</td>
-                     <td>{{ $mk->cum ?: '-' }}</td>
-                     <td>{{ $mk->cum_ave ?: '-' }}</td>
-                 @endif--}}
-
-                {{--Grade, Subject Position & Remarks--}}
                 <td>{{ ($mk->grade) ? $mk->grade->name : '-' }}</td>
                 <td>{!! ($mk->grade) ? Mk::getSuffix($mk->sub_pos) : '-' !!}</td>
                 <td>{{ ($mk->grade) ? $mk->grade->remark : '-' }}</td>
@@ -56,9 +36,9 @@
         </tr>
     @endforeach
     <tr>
-        <td colspan="4"><strong>TOTAL SCORES OBTAINED: </strong> {{ $exr->total }}</td>
-        <td colspan="3"><strong>FINAL AVERAGE: </strong> {{ $exr->ave }}</td>
-        <td colspan="2"><strong>CLASS AVERAGE: </strong> {{ $exr->class_ave }}</td>
+        <td colspan="4"><strong>إجمالي الدرجات:</strong> {{ $exr->total }}</td>
+        <td colspan="5"><strong>المتوسط النهائي:</strong> {{ $exr->ave }}</td>
+        {{-- <td colspan="2"><strong>متوسط الصف:</strong> {{ $exr->class_ave }}</td> --}}
     </tr>
     </tbody>
 </table>

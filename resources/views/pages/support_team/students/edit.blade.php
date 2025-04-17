@@ -3,17 +3,17 @@
 @section('content')
 <div class="card">
             <div class="card-header bg-white header-elements-inline">
-                <h6 id="ajax-title" class="card-title">Please fill The form Below To Edit record of {{ $sr->user->name }}</h6>
+                <h6 id="ajax-title" class="card-title">تعديل بينات الطالب {{ $sr->user->name }}</h6>
 
                 {!! Qs::getPanelOptions() !!}
             </div> 
               <form method="post" enctype="multipart/form-data" class="wizard-form steps-validation ajax-update" data-reload="#ajax-title" action="{{ route('students.update', Qs::hash($sr->id)) }}" data-fouc>
                 @csrf @method('PUT')
-  <h6>
-   بطاقة الطالب
-  </h6>
-  <fieldset>
-   <div class="row">
+
+        <!-- بطاقة الطالب -->
+        <h6>بطاقة الطالب</h6>
+        <fieldset>
+          <div class="row">
     <div class="col-md-6">
      <div class="form-group text-right">
       <label>
@@ -22,28 +22,26 @@
         *
        </span>
       </label>
-      <input class="form-control" id="first_name" name="first_name" placeholder="" required="" type="text" value="{{ old('first_name', $sr->first_name) }}">
+      <input class="form-control" id="first_name" name="first_name" oninput="updateModifiedLastName()" placeholder="" required="" type="text" value="{{ old('first_name', $sr->first_name) }}" >
      </div>
     </div>
     <div class="col-md-3">
      <div class="form-group">
-   <label for="my_parent_id">
+  <label for="my_parent_id">
    الأب:
 </label>
 <select class="select-search form-control" data-placeholder="اختر..." id="my_parent_id" name="my_parent_id" onchange="updateModifiedLastName()">
-   <option value="" {{ old('my_parent_id', $sr->my_parent_id) == '' ? 'selected' : '' }}>
-      @if ($sr->my_parent_id)
-         {{ $parents->where('id', $sr->my_parent_id)->first()->name }}
-      @else
-         اختر الأب
-      @endif
-   </option>
-   @foreach($parents as $p)
-      <option value="{{ Qs::hash($p->id) }}" {{ old('my_parent_id', $sr->my_parent_id) == Qs::hash($p->id) ? 'selected' : '' }}>
-         {{ $p->name }}
-      </option>
-   @endforeach
+    <option value="" {{ old('my_parent_id') == '' ? 'selected' : '' }}>
+        اختر الأب
+    </option>
+    @foreach($parents as $p)
+        <option value="{{ Qs::hash($p->id) }}" 
+            {{ old('my_parent_id', Qs::hash($sr->my_parent_id)) == Qs::hash($p->id) ? 'selected' : '' }}>
+            {{ $p->name }}
+        </option>
+    @endforeach
 </select>
+
 
 
      </div>
@@ -147,22 +145,29 @@ if(lastName.startsWith('ال'))
     </label>
 </div>
 
+
 <div class="col-md-6">
     <div class="form-group text-right">
-        <label class="d-block">رفع صورة شخصية:</label>
+        <label class="d-block"> الصورة شخصية:</label>
+        @if($sr->user->photo)
+    <img src="{{ asset($sr->user->photo) }}" alt="صورة الطالب" style="max-width: 150px; border-radius: 8px;">
+@else
+    <span>لا توجد صورة</span>
+@endif
         <input accept="image/*" class="form-input-styled" data-fouc name="photo" type="file">
         <span class="form-text text-muted">
             الأنواع المقبولة: jpeg, png. الحجم الأقصى: 2Mb
         </span>
-    </div>
+    
+    
 </div>
 </div>
+        </fieldset>
 
-  </fieldset>
-  
- <h6> المعلومات الأساسية</h6>
-  <fieldset>
-   <div class="col-md-6">
+        <!-- المعلومات الأساسية -->
+        <h6>المعلومات الأساسية</h6>
+        <fieldset>
+           <div class="col-md-6">
     <div class="form-group text-right">
      <label>
       اسم الجد:
@@ -196,13 +201,14 @@ if(lastName.startsWith('ال'))
          value="{{ old('mother_lastname', ($personal_info->mother_lastname ?? ($parent_info->mother_lastname ?? ''))) }}">
 </div>
 
-<div class="col-md-3">
-  <div class="form-group text-right">
-    <label>تاريخ الميلاد:</label>
-    <input class="form-control" name="dob" placeholder="" type="date"
-           value="{{ old('dob', ($sr->dob ?? ($sr->dob ?? ''))) }}">
-  </div>
-</div>
+
+   <div class="col-md-3">
+                            <div class="form-group">
+                                <label>تاريخ الميلاد:</label>
+                                <input name="dob" value="{{ $sr->user->dob  }}" type="text" class="form-control date-pick" placeholder="Select Date...">
+
+                            </div>
+                        </div>
 
 <div class="form-group text-right">
   <label>مكان الميلاد :<span class="text-danger">*</span></label>
@@ -294,78 +300,100 @@ if(lastName.startsWith('ال'))
     {{ old('parent_recommendations', ($personal_info->parent_recommendations ?? ($parent_info->parent_recommendations ?? ''))) }}
   </textarea>
 </div>
+        </fieldset>
 
-  </fieldset>
-  <h6>
-   معلومات العائلة
-  </h6>
-  <fieldset>
- <div class="form-group col-md-4">
+        <!-- معلومات العائلة -->
+        <h6>معلومات العائلة</h6>
+        <fieldset>
+     <div class="form-group col-md-4 text-right ">
     <label class="form-label" for="father_job">وظيفة الأب</label>
     <input class="form-control" id="father_job" name="father_job" type="text" value="{{ old('father_job', $parent_info->father_job ?? '') }}"/>
 </div>
 
-<div class="form-group col-md-4">
+<div class="form-group col-md-4 text-right">
     <label class="form-label" for="father_education">مستوى تعليم الأب</label>
     <input class="form-control" id="father_education" name="father_education" type="text" value="{{ old('father_education', $parent_info->father_education ?? '') }}"/>
 </div>
 
-<div class="form-group col-md-4">
+<div class="form-group col-md-4 text-right">
     <label class="form-label" for="father_workplace">جهة عمل الأب</label>
     <input class="form-control" id="father_workplace" name="father_workplace" type="text" value="{{ old('father_workplace', $parent_info->father_workplace ?? '') }}"/>
 </div>
 
-<div class="form-group col-md-4">
-    <label class="form-label" for="father_nationalit">الجنسية</label>
-    <select class="form-control" id="father_nationalit" name="father_nationalit">
+<div class="form-group col-md-4 text-right">
+    <label class="form-label" for="father_nationality">الجنسية</label>
+    <select class="form-control" id="father_nationality" name="father_nationality">
         <option value="">اختر</option>
         @foreach($nationals as $nal)
-            <option value="{{ $nal->id }}" {{ old('father_nationalit', $parent_info->father_nationalit ?? '') == $nal->id ? 'selected' : '' }}>
+            <option value="{{ $nal->id }}" {{ old('father_nationalityy', $parent_info->father_nationalityy ?? '') == $nal->id ? 'selected' : '' }}>
                 {{ $nal->name }}
             </option>
         @endforeach
     </select>
 </div>
 
-<div class="form-group col-md-4">
+<div class="form-group col-md-4 text-right">
     <label class="form-label" for="father_birth_date">تاريخ ميلاد الأب</label>
     <input class="form-control" id="father_birth_date" name="father_birth_date" type="date" value="{{ old('father_birth_date', $parent_info->father_birth_date ?? '') }}"/>
 </div>
+  <div class="col-md-3">
+        <div class="form-group text-right">
+            <label>رقم الجوال:<span class="text-danger">*</span></label>
+            <input value="{{ old('phone', $sr->user->phone ?? '') }}" type="text" name="phone" class="form-control" maxlength="10" pattern="\d{10}" title="يجب أن يكون 10 أرقام">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group text-right">
+            <label>رقم الهاتف:</label>
+            <input value="{{ old('father_phone', $parent_info->father_phone ?? '') }}"type="text" name="father_phone" class="form-control" maxlength="8" pattern="\d{8}" title="يجب أن يكون 8 أرقام">
+        </div>
+    </div>
 
-<div class="form-group col-md-4">
-    <label class="form-label" for="mother_job">وظيفة الأم</label>
+<div class="form-group col-md-4 text-right">
+    <label class="form-label" for="mother_job">مهنة الأم</label>
     <input class="form-control" id="mother_job" name="mother_job" type="text" value="{{ old('mother_job', $parent_info->mother_job ?? '') }}"/>
 </div>
 
-<div class="form-group col-md-4">
+<div class="form-group col-md-4 text-right">
     <label class="form-label" for="mother_education">مستوى تعليم الأم</label>
     <input class="form-control" id="mother_education" name="mother_education" type="text" value="{{ old('mother_education', $parent_info->mother_education ?? '') }}"/>
 </div>
 
-<div class="form-group col-md-4">
+<div class="form-group col-md-4 text-right">
     <label class="form-label" for="mother_workplace">جهة عمل الأم</label>
     <input class="form-control" id="mother_workplace" name="mother_workplace" type="text" value="{{ old('mother_workplace', $parent_info->mother_workplace ?? '') }}"/>
 </div>
 
-<div class="form-group col-md-4">
-    <label class="form-label" for="mother_nationalit">الجنسية</label>
-    <select class="form-control" id="mother_nationalit" name="mother_nationalit">
+<div class="form-group col-md-4 text-right">
+    <label class="form-label" for="mother_nationality">الجنسية</label>
+    <select class="form-control" id="mother_nationality" name="mother_nationality">
         <option value="">اختر</option>
         @foreach($nationals as $nal)
-            <option value="{{ $nal->id }}" {{ old('mother_nationalit', $parent_info->mother_nationalit ?? '') == $nal->id ? 'selected' : '' }}>
+            <option value="{{ $nal->id }}" {{ old('mother_nationality', $parent_info->mother_nationality ?? '') == $nal->id ? 'selected' : '' }}>
                 {{ $nal->name }}
             </option>
         @endforeach
     </select>
 </div>
 
-<div class="form-group col-md-4">
+<div class="form-group col-md-4 text-right">
     <label class="form-label" for="mother_birth_date">تاريخ ميلاد الأم</label>
     <input class="form-control" id="mother_birth_date" name="mother_birth_date" type="date" value="{{ old('mother_birth_date', $parent_info->mother_birth_date ?? '') }}"/>
 </div>
 
-
-<div class="form-group col-md-4">
+   <div class="col-md-3 text-right">
+        <div class="form-group text-right text-right">
+            <label>رقم الجوال:<span class="text-danger">*</span></label>
+            <input value="{{ old('phone2', $sr->user->phone2 ?? '') }}" type="text" name="phone2" class="form-control" maxlength="10" pattern="\d{10}" title="يجب أن يكون 10 أرقام">
+        </div>
+    </div>
+    <div class="col-md-3 text-right">
+        <div class="form-group text-right">
+            <label>رقم الهاتف:</label>
+            <input value="{{ old('mother_phone', $parent_info->mother_phone ?? '') }}"type="text" name="mother_phone" class="form-control" maxlength="8" pattern="\d{8}" title="يجب أن يكون 8 أرقام">
+        </div>
+    </div>
+<div class="form-group col-md-4 text-right">
     <label class="form-label" for="siblings">الإخوة</label>
     <select class="form-control" id="siblings" name="siblings[]" multiple>
         @foreach($students as $student)
@@ -404,12 +432,12 @@ if(lastName.startsWith('ال'))
      الزوجان منفصلان
     </label>
    </div>
-  </fieldset>
-  <h6>
-   معلومات رسمية
-  </h6>
-  <fieldset>
-   <div class="row">
+        </fieldset>
+
+        <!-- معلومات رسمية -->
+        <h6>معلومات رسمية</h6>
+        <fieldset>
+            <div class="row text-right">
        <div class="col-md-6">
   <div class="form-group text-right">
     <label for="civil_registry_office">أمانة السجل المدني:</label>
@@ -449,7 +477,7 @@ if(lastName.startsWith('ال'))
       رقم القيد:
     </label>
     <input class="form-control" name="registration_number" type="text"
-      value="{{ old('registration_number', $personal_info->name ?? $parent_info->name ?? '') }}"/>
+      value="{{ old('registration_number', $personal_info->registration_number ?? $parent_info->registration_number ?? '') }}"/>
   </div>
 </div>
 
@@ -459,22 +487,24 @@ if(lastName.startsWith('ال'))
       <label for="national_id">
        الرقم الوطني:
       </label>
-      <input class="form-control" name="national_id" type="text" value="{{ old('national_id', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+      
+      <input class="form-control" name="national_id" type="text" value="{{ old('national_id', ($personal_info->national_id ?? ($parent_info->national_id ?? ''))) }}"/>
+
      </div>
     </div>
    </div>
-  </fieldset>
-  <h6>
-   معلومات إضافية
-  </h6>
-  <fieldset>
-   <div class="row">
+        </fieldset>
+
+        <!-- معلومات إضافية -->
+        <h6>معلومات إضافية</h6>
+        <fieldset>
+            <div class="row text-right">
     <div class="col-md-6">
      <div class="form-group text-right">
       <label for="form_date">
        تاريخ كتابة الاستمارة:
       </label>
-      <input class="form-control" name="form_date" type="date" value="{{ old('form_date', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+      <input class="form-control" name="form_date" type="date" value="{{ old('form_date', ($personal_info->form_date ?? ($parent_info->form_date ?? ''))) }}"/>
      </div>
     </div>
     <div class="col-md-6">
@@ -482,7 +512,7 @@ if(lastName.startsWith('ال'))
       <label for="confirmation_date">
        تاريخ التثبيت:
       </label>
-      <input class="form-control" name="confirmation_date" type="date" value="{{ old('confirmation_date', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+      <input class="form-control" name="confirmation_date" type="date" value="{{ old('confirmation_date', ($personal_info->confirmation_date ?? ($parent_info->confirmation_date ?? ''))) }}"/>
      </div>
     </div>
     <div class="col-md-6">
@@ -490,7 +520,7 @@ if(lastName.startsWith('ال'))
       <label for="identified_by">
        معرف من قبل:
       </label>
-      <input class="form-control" name="identified_by" type="text" value="{{ old('identified_by', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+      <input class="form-control" name="identified_by" type="text" value="{{ old('identified_by', ($personal_info->identified_by ?? ($parent_info->identified_by ?? ''))) }}"/>
      </div>
     </div>
     <div class="col-md-6">
@@ -498,7 +528,7 @@ if(lastName.startsWith('ال'))
       <label for="exception_reason">
        استثناء:
       </label>
-      <input class="form-control" name="exception_reason" type="text" value="{{ old('exception_reason', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+      <input class="form-control" name="exception_reason" type="text" value="{{ old('exception_reason', ($personal_info->exception_reason ?? ($parent_info->exception_reason ?? ''))) }}"/>
      </div>
     </div>
     <div class="container mt-4">
@@ -507,7 +537,7 @@ if(lastName.startsWith('ال'))
       <label class="form-check-label" for="withdrawal" style="padding-right: 1.8em; position: relative;">
   <input class="form-check-input" id="withdrawal" name="withdrawal" type="checkbox" value="1"
          style="position: absolute; right: 0.2em; top: 0.1em;"
-         {{ old('withdrawal', $student->withdrawal ?? false) ? 'checked' : '' }}>
+         {{ old('withdrawal', $personal_info->withdrawal ?? false) ? 'checked' : '' }}>
   انسحاب
 </label>
 
@@ -518,23 +548,22 @@ if(lastName.startsWith('ال'))
        <label for="transfer_school">
         المدرسة التي انتقل إليها:
        </label>
-       <input class="form-control" name="transfer_school" type="text" value="{{ old('transfer_school', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+       <input class="form-control" name="transfer_school" type="text" value="{{ old('transfer_school', ($personal_info->transfer_school ?? ($parent_info->transfer_school ?? ''))) }}"/>
       </div>
       <div class="form-group text-right">
        <label for="withdrawal_date">
         تاريخ الانسحاب:
        </label>
-       <input class="form-control" name="withdrawal_date" type="date" value="{{ old('withdrawal_date', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+       <input class="form-control" name="withdrawal_date" type="date" value="{{ old('withdrawal_date', ($personal_info->withdrawal_date ?? ($parent_info->withdrawal_date ?? ''))) }}"/>
       </div>
      </div>
     </div>
    </div>
-  </fieldset>
-  <h6>
-   معلومات الاتصال
-  </h6>
-  <fieldset>
-   <div class="row">
+        </fieldset>
+   <!-- معلومات الاتصال -->
+        <h6>معلومات الاتصال</h6>
+        <fieldset>
+            <div class="row">
     <div class="mb-3">
      <label class="form-label" for="approved_mobile">
       اختر الجوال المعتمد للطالب:
@@ -559,13 +588,13 @@ if(lastName.startsWith('ال'))
      <label class="form-label" for="custom_mobile">
       أدخل رقم الجوال المعتمد:
      </label>
-     <input class="form-control" id="custom_mobile" name="custom_mobile" placeholder="أدخل رقم الجوال" type="text" value="{{ old('custom_mobile', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+     <input class="form-control" id="custom_mobile" name="custom_mobile" placeholder="أدخل رقم الجوال" type="text" value="{{ old('custom_mobile', ($personal_info->custom_mobile ?? ($parent_info->custom_mobile ?? ''))) }}"/>
     </div>
     <div class="mb-3" id="kinship" style="display: none;">
      <label class="form-label" for="kinship">
       صلة القرابة  :
      </label>
-     <input class="form-control" id="kinship" name="kinship" placeholder="صلة القرابة  " type="text" value="{{ old('kinship', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+     <input class="form-control" id="kinship" name="kinship" placeholder="صلة القرابة  " type="text" value="{{ old('kinship', ($personal_info->kinship ?? ($parent_info->kinship ?? ''))) }}"/>
     </div>
    </div>
    <script>
@@ -589,13 +618,13 @@ if(lastName.startsWith('ال'))
         }
     }
    </script>
-   <div class="row">
+
     <div class="col-md-6">
      <div class="form-group text-right">
       <label for="region">
        المنطقة:
       </label>
-      <input class="form-control" name="region" required="" type="text" value="{{ old('region', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+      <input class="form-control" name="region" required="" type="text" value="{{ old('region', ($personal_info->region ?? ($parent_info->region ?? ''))) }}"/>
      </div>
     </div>
     <div class="col-md-6">
@@ -614,28 +643,28 @@ if(lastName.startsWith('ال'))
       <input class="form-control" name="housing_sector" required="" type="text" value="{{ old('housing_sector', $personal_info->housing_sector )}}">
      </div>
     </div>
-    <div class="row">
+   
      <div class="col-12">
       <div class="form-group text-right">
        <div class="form-check" style="direction: rtl;">
         <label class="form-check-label" for="transport_service" style="padding-right: 1.8em; position: relative;">
   <input class="form-check-input" id="transport_service" name="transport_service" type="checkbox" value="1"
          style="position: absolute; right: 0.2em; top: 0.1em;"
-         {{ old('transport_service', $student->transport_service ?? false) ? 'checked' : '' }}>
+         {{ old('transport_service', $personal_info->transport_service ?? false) ? 'checked' : '' }}>
   مشترك بخدمة النقل
 </label>
 
        </div>
       </div>
      </div>
-    </div>
+  
     <div id="transport_fields">
      <div class="col-md-6">
       <div class="form-group text-right">
        <label for="subscription_type">
         نوع الاشتراك:
        </label>
-       <input class="form-control" name="subscription_type" type="text" value="{{ old('subscription_type', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+       <input class="form-control" name="subscription_type" type="text" value="{{ old('subscription_type', ($personal_info->subscription_type ?? ($parent_info->subscription_type ?? ''))) }}"/>
       </div>
      </div>
      <div class="col-md-6">
@@ -643,16 +672,17 @@ if(lastName.startsWith('ال'))
        <label for="transport_group">
         مجموعة النقل:
        </label>
-       <input class="form-control" name="transport_group" type="text" value="{{ old('transport_group', ($personal_info->name ?? ($parent_info->name ?? ''))) }}"/>
+       <input class="form-control" name="transport_group" type="text" value="{{ old('transport_group', ($personal_info->transport_group ?? ($parent_info->transport_group ?? ''))) }}"/>
       </div>
      </div>
-    </div>
+   
    </div>
-  </fieldset>
-  <h6>
-   معلومات التسجيل
-  </h6>
-  <fieldset>
+                 </fieldset>
+   
+        <!-- معلومات التسجيل -->
+        <h6>معلومات التسجيل</h6>
+        <fieldset>
+        <div class="row">
    <div class="col-md-3">
     <div class="form-group text-right">
    <label for="year_admitted">
@@ -672,7 +702,7 @@ if(lastName.startsWith('ال'))
 
     </div>
    </div>
-   <div class="row">
+
     <div class="col-md-3">
      <div class="form-group text-right">
     <label for="first_class_id">
@@ -687,7 +717,8 @@ if(lastName.startsWith('ال'))
     </option>
   @endforeach
 </select>
-
+</div>
+                                   </div>
 <div class="col-md-3">
   <div class="form-group text-right">
     <label for="Rtype">
@@ -695,9 +726,9 @@ if(lastName.startsWith('ال'))
       <span class="text-danger">*</span>
     </label>
     <select class="select form-control text-right" id="Rtype" name="Rtype" required>
-      <option value="" {{ old('Rtype', ($personal_info->Rtype ?? ($parent_info->Rtype ?? ''))) == '' ? 'selected' : '' }}></option>
-      <option value="New" {{ old('Rtype', ($personal_info->Rtype ?? ($parent_info->Rtype ?? ''))) == 'New' ? 'selected' : '' }}>مستجد</option>
-      <option value="Transfer" {{ old('Rtype', ($personal_info->Rtype ?? ($parent_info->Rtype ?? ''))) == 'Transfer' ? 'selected' : '' }}>منقول</option>
+      <option value="" {{ old('Rtype', ($sr->Rtype ?? ($sr->Rtype ?? ''))) == '' ? 'selected' : '' }}></option>
+      <option value="New" {{ old('Rtype', ($sr->Rtype ?? ($sr->Rtype ?? ''))) == 'New' ? 'selected' : '' }}>مستجد</option>
+      <option value="Transfer" {{ old('Rtype', ($sr->Rtype ?? ($sr->Rtype ?? ''))) == 'Transfer' ? 'selected' : '' }}>منقول</option>
     </select>
   </div>
 </div>
@@ -706,59 +737,68 @@ if(lastName.startsWith('ال'))
 <div class="col-md-6">
   <div class="form-group text-right">
     <label>المدرسة السابقة :<span class="text-danger">*</span></label>
-    <input class="form-control" id="lastschool" name="lastschool" type="text" value="{{ old('lastschool', ($personal_info->lastschool ?? ($parent_info->lastschool ?? ''))) }}"/>
+    <input class="form-control" id="lastschool" name="lastschool" type="text" value="{{ old('lastschool',$sr->lastschool)}}"/>
   </div>
 </div>
 
 <div class="col-md-6">
   <div class="form-group text-right">
     <label>وثيقة التسجيل :<span class="text-danger">*</span></label>
-    <input class="form-control" id="rdocument" name="rdocument" type="text" value="{{ old('rdocument', ($personal_info->rdocument ?? ($parent_info->rdocument ?? ''))) }}"/>
+    <input class="form-control" id="rdocument" name="rdocument" type="text" value="{{ old('rdocument',$sr->rdocument)}}"/>
   </div>
 </div>
 
 <div class="col-md-6">
   <div class="form-group text-right">
     <label>رقم الوثيقة :<span class="text-danger">*</span></label>
-    <input class="form-control" id="ndocument" name="ndocument" type="text" value="{{ old('ndocument', ($personal_info->ndocument ?? ($parent_info->ndocument ?? ''))) }}"/>
+    <input class="form-control" id="ndocument" name="ndocument" type="text" value="{{ old('ndocument',$sr->ndocument)}}"/>
   </div>
 </div>
 
 <div class="col-md-6">
   <div class="form-group text-right">
     <label>تاريخ الوثيقة :<span class="text-danger">*</span></label>
-    <input class="form-control" id="ddocument" name="ddocument" type="text" value="{{ old('ddocument', ($personal_info->ddocument ?? ($parent_info->ddocument ?? ''))) }}"/>
+    <input class="form-control" id="ddocument" name="ddocument" type="text" value="{{ old('ddocument',$sr->ddocument)}}"/>
   </div>
 </div>
 
 <div class="col-md-6">
   <div class="form-group text-right">
     <label>ملاحظات التسجيل :<span class="text-danger">*</span></label>
-    <input class="form-control" id="note_register" name="note_register" type="text" value="{{ old('note_register', ($personal_info->note_register ?? ($parent_info->note_register ?? ''))) }}"/>
+    <input class="form-control" id="note_register" name="note_register" type="text" value="{{ old('note_register',$sr->note_register)}}"/>
   </div>
 </div>
 
 <div class="col-md-6">
   <div class="form-group text-right">
     <label>رقم الشهادة :<span class="text-danger">*</span></label>
-    <input class="form-control" id="certificate_number" name="certificate_number" type="text" value="{{ old('certificate_number', ($personal_info->certificate_number ?? ($parent_info->certificate_number ?? ''))) }}"/>
+    <input class="form-control" id="certificate_number" name="certificate_number" type="text" value="{{ old('certificate_number',$sr->certificate_number)}}"/>
   </div>
 </div>
 
+@if($sr->file)
+    <div class="form-group text-right">
+        <a href="{{ asset('storage/' . $sr->file) }}" target="_blank" class="btn btn-info">
+            تحميل الإضبارة الحالية
+        </a>
+    </div>
+@endif
+
 <div class="form-group text-right">
-  <label>الإضبارة (ملف PDF فقط):</label>
-  <input accept=".pdf" class="form-control" name="file" required type="file"/>
+    <label>الإضبارة (ملف PDF فقط):</label>
+    <input accept=".pdf" class="form-control" name="file" type="file"/>
+    <small class="text-muted">في حال رفع ملف جديد سيتم استبدال القديم</small>
+</div>
 </div>
 
-<button class="btn btn-success" type="submit">إرسال</button>
-</div>
-                                   </div>
   
-                  </div>
+                  
 
-</fieldset>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+      toggleCustomMobile();
+updateModifiedLastName();
   const otherRadio = document.getElementById('other');
   const extraFields = document.getElementById('extraFields');
 
@@ -769,5 +809,18 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
-@endsection
+        </fieldset>
 
+    </form>
+</div>
+
+<script>
+    $('.wizard-form').steps({
+        headerTag: 'h6',
+        bodyTag: 'fieldset',
+        transitionEffect: 'fade',
+        titleTemplate: '<span class="number">#index#</span> #title#',
+        autoFocus: true
+    });
+</script>
+@endsection

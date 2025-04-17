@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Student Marksheet - {{ $sr->user->name }}</title>
+    <title>الجلاء المدرسي للطالب  - {{ $sr->user->name }}</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/my_print.css') }}" />
 </head>
 <body>
@@ -40,12 +40,12 @@
         {{--@include('pages.support_team.marks.print.grading')--}}
 
         {{-- TRAITS - PSCHOMOTOR & AFFECTIVE --}}
-        @include('pages.support_team.marks.print.skills')
+        {{-- @include('pages.support_team.marks.print.skills') --}}
 
         <div style="margin-top: 25px; clear: both;"></div>
 
         {{--    COMMENTS & SIGNATURE    --}}
-        @include('pages.support_team.marks.print.comments')
+        {{-- @include('pages.support_team.marks.print.comments') --}}
 
     </div>
 </div>

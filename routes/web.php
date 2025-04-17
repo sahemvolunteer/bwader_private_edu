@@ -1,5 +1,4 @@
 <?php
-
 Auth::routes();
 
 //Route::get('/test', 'TestController@index')->name('test');
@@ -13,22 +12,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@dashboard')->name('home');
     Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 
-    Route::group(['prefix' => 'my_account'], function() {
+    Route::group(['prefix' => 'my_account'], function () {
         Route::get('/', 'MyAccountController@edit_profile')->name('my_account');
         Route::put('/', 'MyAccountController@update_profile')->name('my_account.update');
         Route::put('/change_password', 'MyAccountController@change_pass')->name('my_account.change_pass');
     });
 
     /*************** Support Team *****************/
-    Route::group(['namespace' => 'SupportTeam',], function(){
+    Route::group(['namespace' => 'SupportTeam', ], function () {
 
         /*************** Students *****************/
-        Route::group(['prefix' => 'students'], function(){
+        Route::group(['prefix' => 'students'], function () {
+            Route::get('{id}/export', 'StudentRecordController@exportStudent')->name('students.export');
+
             Route::get('reset_pass/{st_id}', 'StudentRecordController@reset_pass')->name('st.reset_pass');
             Route::get('graduated', 'StudentRecordController@graduated')->name('students.graduated');
             Route::put('not_graduated/{id}', 'StudentRecordController@not_graduated')->name('st.not_graduated');
             Route::get('list/{class_id}', 'StudentRecordController@listByClass')->name('students.list')->middleware('teamSAT');
-Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listBySection')->name('students.list.section');//section
+            Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listBySection')->name('students.list.section');//section
             /* Promotions */
             Route::post('promote_selector', 'PromotionController@selector')->name('students.promote_selector');
             Route::get('promotion/manage', 'PromotionController@manage')->name('students.promotion_manage');
@@ -40,24 +41,24 @@ Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listByS
         });
 
         /*************** Users *****************/
-        Route::group(['prefix' => 'users'], function(){
+        Route::group(['prefix' => 'users'], function () {
             Route::get('reset_pass/{id}', 'UserController@reset_pass')->name('users.reset_pass');
         });
 
         /*************** TimeTables *****************/
-        Route::group(['prefix' => 'timetables'], function(){
+        Route::group(['prefix' => 'timetables'], function () {
             Route::get('/', 'TimeTableController@index')->name('tt.index');
 
-            Route::group(['middleware' => 'teamSA'], function() {
+            Route::group(['middleware' => 'teamSA'], function () {
                 Route::post('/', 'TimeTableController@store')->name('tt.store');
                 Route::put('/{tt}', 'TimeTableController@update')->name('tt.update');
                 Route::delete('/{tt}', 'TimeTableController@delete')->name('tt.delete');
             });
 
             /*************** TimeTable Records *****************/
-            Route::group(['prefix' => 'records'], function(){
+            Route::group(['prefix' => 'records'], function () {
 
-                Route::group(['middleware' => 'teamSA'], function(){
+                Route::group(['middleware' => 'teamSA'], function () {
                     Route::get('manage/{ttr}', 'TimeTableController@manage')->name('ttr.manage');
                     Route::post('/', 'TimeTableController@store_record')->name('ttr.store');
                     Route::get('edit/{ttr}', 'TimeTableController@edit_record')->name('ttr.edit');
@@ -71,7 +72,7 @@ Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listByS
             });
 
             /*************** Time Slots *****************/
-            Route::group(['prefix' => 'time_slots', 'middleware' => 'teamSA'], function(){
+            Route::group(['prefix' => 'time_slots', 'middleware' => 'teamSA'], function () {
                 Route::post('/', 'TimeTableController@store_time_slot')->name('ts.store');
                 Route::post('/use/{ttr}', 'TimeTableController@use_time_slot')->name('ts.use');
                 Route::get('edit/{ts}', 'TimeTableController@edit_time_slot')->name('ts.edit');
@@ -82,7 +83,7 @@ Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listByS
         });
 
         /*************** Payments *****************/
-        Route::group(['prefix' => 'payments'], function(){
+        Route::group(['prefix' => 'payments'], function () {
 
             Route::get('manage/{class_id?}', 'PaymentController@manage')->name('payments.manage');
             Route::get('invoice/{id}/{year?}', 'PaymentController@invoice')->name('payments.invoice');
@@ -95,7 +96,7 @@ Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listByS
         });
 
         /*************** Pins *****************/
-        Route::group(['prefix' => 'pins'], function(){
+        Route::group(['prefix' => 'pins'], function () {
             Route::get('create', 'PinController@create')->name('pins.create');
             Route::get('/', 'PinController@index')->name('pins.index');
             Route::post('/', 'PinController@store')->name('pins.store');
@@ -105,10 +106,10 @@ Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listByS
         });
 
         /*************** Marks *****************/
-        Route::group(['prefix' => 'marks'], function(){
+        Route::group(['prefix' => 'marks'], function () {
 
            // FOR teamSA
-            Route::group(['middleware' => 'teamSA'], function(){
+            Route::group(['middleware' => 'teamSA'], function () {
                 Route::get('batch_fix', 'MarkController@batch_fix')->name('marks.batch_fix');
                 Route::put('batch_update', 'MarkController@batch_update')->name('marks.batch_update');
                 Route::get('tabulation/{exam?}/{class?}/{sec_id?}', 'MarkController@tabulation')->name('marks.tabulation');
@@ -117,7 +118,7 @@ Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listByS
             });
 
             // FOR teamSAT
-            Route::group(['middleware' => 'teamSAT'], function(){
+            Route::group(['middleware' => 'teamSAT'], function () {
                 Route::get('/', 'MarkController@index')->name('marks.index');
                 Route::get('manage/{exam}/{class}/{section}/{subject}', 'MarkController@manage')->name('marks.manage');
                 Route::put('update/{exam}/{class}/{section}/{subject}', 'MarkController@update')->name('marks.update');
@@ -152,7 +153,7 @@ Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listByS
     });
 
     /************************ AJAX ****************************/
-    Route::group(['prefix' => 'ajax'], function() {
+    Route::group(['prefix' => 'ajax'], function () {
         Route::get('get_lga/{state_id}', 'AjaxController@get_lga')->name('get_lga');
         Route::get('get_class_sections/{class_id}', 'AjaxController@get_class_sections')->name('get_class_sections');
         Route::get('get_class_subjects/{class_id}', 'AjaxController@get_class_subjects')->name('get_class_subjects');
@@ -161,7 +162,7 @@ Route::get('/students/{class_id}/{section_id}', 'StudentRecordController@listByS
 });
 
 /************************ SUPER ADMIN ****************************/
-Route::group(['namespace' => 'SuperAdmin','middleware' => 'super_admin', 'prefix' => 'super_admin'], function(){
+Route::group(['namespace' => 'SuperAdmin', 'middleware' => 'super_admin', 'prefix' => 'super_admin'], function () {
 
     Route::get('/settings', 'SettingController@index')->name('settings');
     Route::put('/settings', 'SettingController@update')->name('settings.update');
@@ -169,7 +170,7 @@ Route::group(['namespace' => 'SuperAdmin','middleware' => 'super_admin', 'prefix
 });
 
 /************************ PARENT ****************************/
-Route::group(['namespace' => 'MyParent','middleware' => 'my_parent',], function(){
+Route::group(['namespace' => 'MyParent', 'middleware' => 'my_parent', ], function () {
 
     Route::get('/my_children', 'MyController@children')->name('my_children');
 

@@ -82,6 +82,9 @@
 
                                         <div class="dropdown-menu dropdown-menu-left">
                                             <a href="{{ route('students.show', Qs::hash($s->id)) }}" class="dropdown-item"><i class="icon-eye"></i> عرض الملف</a>
+                                            <a href="{{ route('students.export', $s->id) }}" class="btn btn-success">
+    تحميل بيانات الطالب Excel
+</a>
                                             @if(Qs::userIsTeamSA())
                                                 <a href="{{ route('students.edit', Qs::hash($s->id)) }}" class="dropdown-item"><i class="icon-pencil"></i> تعديل</a>
                                                 <a href="{{ route('st.reset_pass', Qs::hash($s->user->id)) }}" class="dropdown-item"><i class="icon-lock"></i> إعادة تعيين كلمة السر</a>

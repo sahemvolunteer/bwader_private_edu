@@ -101,6 +101,14 @@ class StudentRecordCreate extends FormRequest
         // 🔹 الإخوة (من جدول siblings)
             'siblings' => 'nullable|array', // يجب أن يكون مصفوفة من الإخوة
             'siblings.*' => 'exists:users,id',
+            'rtype' => 'nullable|string',
+            'lastschool' => 'nullable|string|max:255',
+            'rdocument' => 'nullable|string|max:255',
+            'ndocument' => 'nullable|string|max:255',
+            'ddocument' => 'nullable|string|max:255',
+            'note_register' => 'nullable|string|max:255',
+            'certificate_number' => 'nullable|string|max:255',
+
         ];
     }
 

@@ -14,21 +14,21 @@
                     <form class="ajax-update" method="post" action="{{ route('subjects.update', $s->id) }}">
                         @csrf @method('PUT')
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
+                            <label class="col-lg-3 col-form-label font-weight-semibold">الاسم <span class="text-danger">*</span></label>
                             <div class="col-lg-9">
                                 <input name="name" value="{{ $s->name }}" required type="text" class="form-control" placeholder="Name of Subject">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label font-weight-semibold">Short Name</label>
+                            <label class="col-lg-3 col-form-label font-weight-semibold">الاسم المختصر</label>
                             <div class="col-lg-9">
                                 <input name="slug" value="{{ $s->slug }}"  type="text" class="form-control" placeholder="Short Name">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="my_class_id" class="col-lg-3 col-form-label font-weight-semibold">Class <span class="text-danger">*</span></label>
+                            <label for="my_class_id" class="col-lg-3 col-form-label font-weight-semibold">الصف <span class="text-danger">*</span></label>
                             <div class="col-lg-9">
                                 <select required data-placeholder="Select Class" class="form-control select" name="my_class_id" id="my_class_id">
                                     @foreach($my_classes as $c)
@@ -41,7 +41,7 @@
                        
 
                         <div class="text-right">
-                            <button type="submit" class="btn btn-primary">Submit form <i class="icon-paperplane ml-2"></i></button>
+                            <button type="submit" class="btn btn-primary">إرسال <i class="icon-paperplane ml-2"></i></button>
                         </div>
                     </form>
                 </div>

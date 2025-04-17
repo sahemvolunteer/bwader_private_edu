@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@section('page_title', 'Student Marksheet')
+@section('page_title', 'جدول علامات الطالب')
 @section('content')
 
     <div class="card">
         <div class="card-header text-center">
-            <h4 class="card-title font-weight-bold">Student Marksheet for =>  {{ $sr->user->name.' ('.$my_class->name.' '.$my_class->section->first()->name.')' }} </h4>
+            <h4 class="card-title font-weight-bold">الجلاء المدرسي للطالب =>  {{ $sr->user->name.' ('.$my_class->name.' '.$my_class->section->first()->name.')' }} </h4>
         </div>
     </div>
 
@@ -32,10 +32,10 @@
                 </div>
 
             {{--    EXAM COMMENTS   --}}
-            @include('pages.support_team.marks.show.comments')
+            {{-- @include('pages.support_team.marks.show.comments') --}}
 
             {{-- SKILL RATING --}}
-            @include('pages.support_team.marks.show.skills')
+            {{-- @include('pages.support_team.marks.show.skills') --}}
 
         @endforeach
     @endforeach

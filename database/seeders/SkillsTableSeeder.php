@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -21,24 +20,23 @@ class SkillsTableSeeder extends Seeder
 
     protected function createSkills()
     {
-
         $types = ['AF', 'PS']; // Affective & Psychomotor Traits/Skills
         $d = [
 
-            [ 'name' => 'PUNCTUALITY', 'skill_type' => $types[0] ],
-            [ 'name' => 'NEATNESS', 'skill_type' => $types[0] ],
-            [ 'name' => 'HONESTY', 'skill_type' => $types[0] ],
-            [ 'name' => 'RELIABILITY', 'skill_type' => $types[0] ],
-            [ 'name' => 'RELATIONSHIP WITH OTHERS', 'skill_type' => $types[0] ],
-            [ 'name' => 'POLITENESS', 'skill_type' => $types[0] ],
-            [ 'name' => 'ALERTNESS', 'skill_type' => $types[0] ],
-            [ 'name' => 'HANDWRITING', 'skill_type' => $types[1] ],
-            [ 'name' => 'GAMES & SPORTS', 'skill_type' => $types[1] ],
-            [ 'name' => 'DRAWING & ARTS', 'skill_type' => $types[1] ],
-            [ 'name' => 'PAINTING', 'skill_type' => $types[1] ],
-            [ 'name' => 'CONSTRUCTION', 'skill_type' => $types[1] ],
-            [ 'name' => 'MUSICAL SKILLS', 'skill_type' => $types[1] ],
-            [ 'name' => 'FLEXIBILITY', 'skill_type' => $types[1] ],
+            ['name' => 'الالتزام بالمواعيد', 'skill_type' => $types[0]],
+            ['name' => 'النظافة', 'skill_type' => $types[0]],
+            ['name' => 'الأمانة', 'skill_type' => $types[0]],
+            ['name' => 'الاعتماد على النفس', 'skill_type' => $types[0]],
+            ['name' => 'العلاقة مع الآخرين', 'skill_type' => $types[0]],
+            ['name' => 'حسن الأدب', 'skill_type' => $types[0]],
+            ['name' => 'سرعة الانتباه', 'skill_type' => $types[0]],
+            ['name' => 'الخط اليدوي', 'skill_type' => $types[1]],
+            ['name' => 'الألعاب والرياضة', 'skill_type' => $types[1]],
+            ['name' => 'الرسم والفنون', 'skill_type' => $types[1]],
+            ['name' => 'التلوين', 'skill_type' => $types[1]],
+            ['name' => 'الأشغال اليدوية', 'skill_type' => $types[1]],
+            ['name' => 'المهارات الموسيقية', 'skill_type' => $types[1]],
+            ['name' => 'المرونة البدنية', 'skill_type' => $types[1]],
 
         ];
         DB::table('skills')->insert($d);

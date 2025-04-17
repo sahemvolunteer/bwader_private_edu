@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Helpers;
 
 use App\Models\Setting;
@@ -18,15 +17,15 @@ class Qs
         return '
                 <div class="alert alert-danger alert-styled-left alert-dismissible">
 									<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-									<span class="font-weight-semibold">Oops!</span> '.
-        implode(' ', $data).'
+									<span class="font-weight-semibold">Oops!</span> ' .
+            implode(' ', $data) . '
 							    </div>
                 ';
     }
 
     public static function getAppCode()
     {
-        return self::getSetting('system_title') ?: 'SCHOOL';
+        return self::getSetting('system_title') ? : 'SCHOOL';
     }
 
     public static function getDefaultUserImage()
@@ -48,8 +47,8 @@ class Qs
     {
         return '
  <div class="alert alert-success alert-bordered">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button> '.
-        $msg.'  </div>
+                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button> ' .
+            $msg . '  </div>
                 ';
     }
 
@@ -80,7 +79,7 @@ class Qs
 
     public static function hash($id)
     {
-        $date = date('dMY').'SCHOOL';
+        $date = date('dMY') . 'SCHOOL';
         $hash = new Hashids($date, 14);
         return $hash->encode($id);
     }
@@ -94,14 +93,22 @@ class Qs
 
     public static function getStaffRecord($remove = [])
     {
-        $data = ['emp_date',];
+        $data = ['emp_date', ];
 
         return $remove ? array_values(array_diff($data, $remove)) : $data;
     }
 
     public static function getStudentData($remove = [])
     {
-        $data = ['my_class_id', 'section_id', 'my_parent_id', 'dorm_id', 'dorm_room_no', 'year_admitted', 'house', 'age','first_name','last_name','pob','file','first_class_id','active'];
+        $data = [
+            'my_class_id', 'section_id', 'my_parent_id', 'dorm_id', 'dorm_room_no', 'year_admitted', 'house', 'age', 'first_name', 'last_name', 'pob', 'file', 'first_class_id', 'active', 'rtype',
+            'lastschool',
+            'rdocument',
+            'ndocument',
+            'ddocument',
+            'note_register',
+            'certificate_number'
+        ];
 
         return $remove ? array_values(array_diff($data, $remove)) : $data;
 
@@ -109,7 +116,7 @@ class Qs
 
     public static function decodeHash($str, $toString = true)
     {
-        $date = date('dMY').'SCHOOL';
+        $date = date('dMY') . 'SCHOOL';
         $hash = new Hashids($date, 14);
         $decoded = $hash->decode($str);
         return $toString ? implode(',', $decoded) : $decoded;
@@ -175,15 +182,15 @@ class Qs
         return in_array(Auth::user()->user_type, self::getStaff());
     }
 
-    public static function getStaff($remove=[])
+    public static function getStaff($remove = [])
     {
-        $data =  ['super_admin', 'admin', 'teacher', 'accountant', 'librarian'];
+        $data = ['super_admin', 'admin', 'teacher', 'accountant', 'librarian'];
         return $remove ? array_values(array_diff($data, $remove)) : $data;
     }
 
-    public static function getAllUserTypes($remove=[])
+    public static function getAllUserTypes($remove = [])
     {
-        $data =  ['super_admin', 'admin', 'teacher', 'accountant', 'librarian', 'student', 'parent'];
+        $data = ['super_admin', 'admin', 'teacher', 'accountant', 'librarian', 'student', 'parent'];
         return $remove ? array_values(array_diff($data, $remove)) : $data;
     }
 
@@ -200,7 +207,7 @@ class Qs
 
     public static function userIsMyChild($student_id, $parent_id)
     {
-        $data = ['user_id' => $student_id, 'my_parent_id' =>$parent_id];
+        $data = ['user_id' => $student_id, 'my_parent_id' => $parent_id];
         return StudentRecord::where($data)->exists();
     }
 
@@ -226,12 +233,12 @@ class Qs
 
     public static function getUserUploadPath()
     {
-        return 'uploads/'.date('Y').'/'.date('m').'/'.date('d').'/';
+        return 'uploads/' . date('Y') . '/' . date('m') . '/' . date('d') . '/';
     }
 
     public static function getUploadPath($user_type)
     {
-        return 'uploads/'.$user_type.'/';
+        return 'uploads/' . $user_type . '/';
     }
 
     public static function getFileMetaData($file)
@@ -253,7 +260,7 @@ class Qs
         $base = log($size, 1024);
         $suffixes = array('B', 'KB', 'MB', 'GB', 'TB');
 
-        return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
+        return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
     }
 
     public static function getSetting($type)
@@ -270,7 +277,7 @@ class Qs
     {
         $oy = self::getCurrentSession();
         $old_yr = explode('-', $oy);
-        return ++$old_yr[0].'-'.++$old_yr[1];
+        return ++$old_yr[0] . '-' . ++$old_yr[1];
     }
 
     public static function getSystemName()
@@ -295,14 +302,20 @@ class Qs
 
     public static function getMarkType($class_type)
     {
-       switch($class_type){
-           case 'J' : return 'junior';
-           case 'S' : return 'senior';
-           case 'N' : return 'nursery';
-           case 'P' : return 'primary';
-           case 'PN' : return 'pre_nursery';
-           case 'C' : return 'creche';
-       }
+        switch ($class_type) {
+            case 'J' :
+                return 'junior';
+            case 'S' :
+                return 'senior';
+            case 'N' :
+                return 'nursery';
+            case 'P' :
+                return 'primary';
+            case 'PN' :
+                return 'pre_nursery';
+            case 'C' :
+                return 'creche';
+        }
         return $class_type;
     }
 
@@ -339,8 +352,8 @@ class Qs
     public static function goToRoute($goto, $status = 302, $headers = [], $secure = null)
     {
         $data = [];
-        $to = (is_array($goto) ? $goto[0] : $goto) ?: 'dashboard';
-        if(is_array($goto)){
+        $to = (is_array($goto) ? $goto[0] : $goto) ? : 'dashboard';
+        if (is_array($goto)) {
             array_shift($goto);
             $data = $goto;
         }
